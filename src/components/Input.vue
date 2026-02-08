@@ -28,14 +28,14 @@ const props = withDefaults(defineProps<Props>(), {
 
 <template>
 <div :class="`${divClazz} ${extraDivClasses || ''}`">
-<input
-    :class="`${inputClazz} ${extraInputClasses || ''}`",
-    :disabled="disabled"
-    :placeholder="placeholder"
-    :type="type"
-    :id="id"
-    :name="name"/>
-<slot></slot>
+    <input
+        :class="`${inputClazz} ${extraInputClasses || ''}`",
+        :disabled="disabled"
+        :placeholder="placeholder"
+        :type="type"
+        :id="id"
+        :name="name"/>
+    <slot></slot>
 </div>
 </template>
 

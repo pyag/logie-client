@@ -15,9 +15,7 @@ const props = withDefaults(defineProps<Props>(), {
 <template>
 <button
     :class="`${btnClass} btnStyle ${extraClasses || ''}`"
-    :disabled="disabled"
-    @click="$emit('click', $event)">
-    <slot name="icon"></slot>
+    :disabled="disabled">
     <slot></slot>
 </button>
 </template>
