@@ -18,7 +18,8 @@ import SectionHeading from "./SectionHeading.vue";
 
             <Button>Login</Button>
 
-            <div class="flex flex-col items-end grow mt-4 text-sm gap-y-0.5">
+            <div class="flex flex-col items-end mt-3 grow text-sm">
+                <Link>Forgot password?</Link>
                 <Link>Create temporary locker</Link>
                 <Link>Sign up?</Link>
             </div>
