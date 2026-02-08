@@ -1,6 +1,5 @@
 <script setup>
 import Button from "./Button.vue";
-import Input2 from "./Input2.vue";
 import Input from "./Input.vue";
 import Link from "./Link.vue";
 import SectionHeading from "./SectionHeading.vue";
@@ -11,7 +10,7 @@ import SectionHeading from "./SectionHeading.vue";
         <form class="flex flex-col gap-y-4 login-form">
             <SectionHeading>login</SectionHeading>
 
-            <Input2 type="text" id="username" name="username" placeholder="Locker name or email or phone number" />
+            <Input type="text" id="username" name="username" placeholder="Locker name or email or phone number" />
 
             <Input type="password" id="password" name="password" placeholder="Password" />
 

@@ -2,10 +2,10 @@
 import { ref } from "vue";
 
 import Button from "./Button.vue";
-import Input from "./Input.vue";
 import Modal from "./Modal.vue";
 
 import Login from "./Login.vue";
+import Input from "./Input.vue";
 
 const showSignUpModal = ref(false);
 const showLoginModal = ref(false);
@@ -18,8 +18,8 @@ const showLoginModal = ref(false);
                 <div class="gradient-heading text-[11em]">logie</div>
                 <div class="flex justify-end text-xl -mt-15 mr-2.5 italic">Online lockers</div>
             </div>
-            <div class="flex w-3xl max-w-3xl p-1 mb-6 border-none! border-gray-300 rounded-full bg-gray-200 focus-within:ring-1 focus-within:ring-gray-400">
-                <Input :placeholder="`Search lockers`" :extra-classes="`flex-1 !border-none !outline-none !bg-transparent !rounded-none focus:!outline-none focus:!ring-0`"></Input>
+            <Input :placeholder="`Search lockers`" :extra-div-classes="`!rounded-full w-3xl max-w-3xl mb-6 focus-within:ring-gray-400`"
+                :extra-input-classes="`!py-2 !px-4`">
                 <Button extra-classes="!border-none !text-black !bg-gray-200 hover:!bg-gray-300 !rounded-full !bg-none">
                     <template #icon>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -27,7 +27,7 @@ const showLoginModal = ref(false);
                         </svg>
                     </template>
                 </Button>
-            </div>
+            </Input>
             <div class="flex gap-x-4">
                 <Button @click="showSignUpModal=true">Sign Up</Button>
                 <Button>Want a temporary locker?</Button>
