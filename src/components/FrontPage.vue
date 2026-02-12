@@ -18,7 +18,12 @@ const showLoginModal = ref(false);
                 <div class="gradient-heading text-[11em]">logie</div>
                 <div class="flex justify-end text-xl -mt-15 mr-2.5 italic">Online lockers</div>
             </div>
-            <Input :placeholder="`Search lockers`" :extra-div-classes="`!rounded-full w-3xl max-w-3xl mb-6 focus-within:ring-gray-400`"
+            <div class="flex gap-x-4 mb-6">
+                <Button @click="showSignUpModal=true">Sign Up</Button>
+                <Button>Create temporary locker</Button>
+                <Button @click="showLoginModal=true">Log In</Button>
+            </div>
+            <Input :placeholder="`Search lockers`" :extra-div-classes="`!rounded-full w-3xl max-w-3xl focus-within:ring-gray-400`"
                 :extra-input-classes="`!py-2 !px-4`">
                 <Button extra-classes="!border-none !text-black !bg-gray-200 hover:!bg-gray-300 !rounded-full !bg-none">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -26,11 +31,6 @@ const showLoginModal = ref(false);
                     </svg>
                 </Button>
             </Input>
-            <div class="flex gap-x-4">
-                <Button @click="showSignUpModal=true">Sign Up</Button>
-                <Button>Want a temporary locker?</Button>
-                <Button @click="showLoginModal=true">Log In</Button>
-            </div>
         </div>
     </div>
 
@@ -40,8 +40,6 @@ const showLoginModal = ref(false);
     </Modal>
 
     <Modal v-model="showLoginModal" @close="showLoginModal=false">
-        <!-- <h2>log in to locker</h2>
-        <p>locker login form goes here.</p> -->
         <Login />
     </Modal>
 </template>

@@ -19,9 +19,9 @@ import SectionHeading from "./SectionHeading.vue";
             <Button>Login</Button>
 
             <div class="flex flex-col items-end mt-3 grow text-sm">
-                <Link>Forgot password?</Link>
+                <Link>Forgot password</Link>
                 <Link>Create temporary locker</Link>
-                <Link>Sign up?</Link>
+                <Link>Sign up</Link>
             </div>
         </form>
     </div>
