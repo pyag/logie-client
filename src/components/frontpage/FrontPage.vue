@@ -2,11 +2,12 @@
 import { ref } from "vue";
 import { Search } from "lucide-vue-next";
 
-import Button from "./Button.vue";
-import Modal from "./Modal.vue";
+import Button from "../Button.vue";
+import Modal from "../Modal.vue";
 
-import Login from "./Login.vue";
-import Input from "./Input.vue";
+import Login from "../Login.vue";
+import Input from "../Input.vue";
+import Signup from "../Signup.vue";
 
 const showSignUpModal = ref(false);
 const showLoginModal = ref(false);
@@ -34,8 +35,9 @@ const showLoginModal = ref(false);
     </div>
 
     <Modal v-model="showSignUpModal" @close="showSignUpModal=false">
-        <h2>locker creation</h2>
-        <p>locker creation form goes here.</p>
+        <!-- <h2>locker creation</h2>
+        <p>locker creation form goes here.</p> -->
+        <Signup />
     </Modal>
 
     <Modal v-model="showLoginModal" @close="showLoginModal=false">
@@ -48,6 +50,5 @@ const showLoginModal = ref(false);
     background: linear-gradient(270deg, #009F6B, #4169E1, #E52B50);
     color: transparent;
     background-clip: text;
-    /* font-style: italic; */
 }
 </style>

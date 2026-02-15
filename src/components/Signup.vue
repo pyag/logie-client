@@ -9,30 +9,31 @@ import SectionHeading from "./SectionHeading.vue";
 
 <template>
     <div>
-        <form class="flex flex-col gap-y-4 login-form" @submit.prevent>
-            <SectionHeading>login</SectionHeading>
+        <form class="flex flex-col gap-y-4 signup-form" @submit.prevent>
+            <SectionHeading>Signup</SectionHeading>
 
             <Input type="text" id="username" name="username"
             placeholder="Locker name or email or phone number" />
 
             <Password id="password" name="password" placeholder="Password" />
 
-            <Button>Login</Button>
+            <Password id="cnfrm-password" name="cnfrm-password" placeholder="Confirm password" />
+
+            <Button>Create locker</Button>
 
             <div class="flex flex-col items-end mt-2 mb-5 text-sm">
-                <Link>Forgot password</Link>
                 <Link>Create temporary locker</Link>
-                <Link>Sign up</Link>
+                <Link>Login</Link>
             </div>
 
-            <BrandingSection section-placeholder="or log in with" />
+            <BrandingSection section-placeholder="or sign up with" />
         </form>
     </div>
 </template>
 
 <style scoped>
-.login-form {
+.signup-form {
     width: 19vw;
-    height: 49vh;
+    height: 55vh;
 }
 </style>

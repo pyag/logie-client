@@ -1,6 +1,6 @@
 <script setup>
 import Dashboard from "./components/Dashboard.vue";
-import FrontPage from "./components/FrontPage.vue";
+import FrontPage from "./components/frontpage/FrontPage.vue";
 
 function isUserLoggedIn() {
     return true; // Placeholder logic; replace with actual authentication check
