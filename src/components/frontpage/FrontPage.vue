@@ -35,8 +35,6 @@ const showLoginModal = ref(false);
     </div>
 
     <Modal v-model="showSignUpModal" @close="showSignUpModal=false">
-        <!-- <h2>locker creation</h2>
-        <p>locker creation form goes here.</p> -->
         <Signup />
     </Modal>
 

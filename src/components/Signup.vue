@@ -26,7 +26,7 @@ import SectionHeading from "./SectionHeading.vue";
                 <Link>Login</Link>
             </div>
 
-            <BrandingSection section-placeholder="or sign up with" />
+            <!-- <BrandingSection section-placeholder="or sign up with" /> -->
         </form>
     </div>
 </template>

@@ -1,4 +1,16 @@
-<script setup>
+<script setup lang="ts">
+import { X } from 'lucide-vue-next';
+
+import BaseButton from './BaseButton.vue';
+
+interface Props {
+    modalTitle: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    modalTitle: "",
+});
+
 const isVisible = defineModel({
     type: Boolean,
 });
@@ -11,11 +23,18 @@ function closeModal() {
 <template>
     <Transition name="modal">
         <div v-if="isVisible" @click="closeModal" class="modal-overlay flex justify-center items-center">
-            <div class="modal-content w-fit h-fit rounded-lg overflow-hidden" @click.stop>
-                <div class="modal-heading flex justify-end p-1">
-                    <span class="close-button cursor-pointer bg-rose-400 p-0.75 mr-0.75 rounded-sm" @click="closeModal">&times;</span>
+            <div class="modal-content rounded-lg overflow-hidden" @click.stop>
+                <div class="modal-heading relative flex items-center p-0.5">
+                    <div class="modal-title text-sm absolute left-1/2 transform -translate-x-1/2">
+                        {{ modalTitle }}
+                    </div>
+                    <div class="modal-controls ml-auto mr-0.5 w-4 h-4 bg-red-700 rounded-full flex items-center justify-center">
+                        <BaseButton @click="closeModal">
+                            <X class="h-3 w-3 text-white" stroke-width="4" />
+                        </BaseButton>
+                    </div>
                 </div>
-                <div class="p-4">
+                <div class="modal-body p-4">
                     <slot></slot>
                 </div>
             </div>
