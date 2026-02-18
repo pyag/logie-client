@@ -1,28 +1,33 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { X } from 'lucide-vue-next';
 
 import BaseButton from './BaseButton.vue';
 
 interface Props {
-    modalTitle: string;
+    modalTitle?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     modalTitle: "",
 });
 
-const isVisible = defineModel({
-    type: Boolean,
-});
+const isVisible = ref(true);
+const emit = defineEmits(['close']);
 
 function closeModal() {
+    // start leave transition; emit 'close' only after transition finishes
     isVisible.value = false;
+}
+
+function onAfterLeave() {
+    emit('close');
 }
 </script>
 
 <template>
-    <Transition name="modal">
-        <div v-if="isVisible" @click="closeModal" class="modal-overlay flex justify-center items-center">
+    <Transition appear name="modal" @after-leave="onAfterLeave">
+        <div v-show="isVisible" @click="closeModal" class="modal-overlay flex justify-center items-center">
             <div class="modal-content rounded-lg overflow-hidden" @click.stop>
                 <div class="modal-heading relative flex items-center p-0.5">
                     <div class="modal-title text-sm absolute left-1/2 transform -translate-x-1/2">
