@@ -16,7 +16,6 @@ const props = withDefaults(defineProps<Props>(), {
     divClazz: `flex p-1 border-none border-gray-300 rounded-lg
     bg-gray-200 focus-within:ring-1 focus-within:ring-gray-300`,
 
-
     disabled: false,
     type: "",
     id: "",
