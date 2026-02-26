@@ -5,7 +5,7 @@ import UserOptions from './UserOptions.vue'
 
 <template>
     <div class="bg-gray-100 w-full flex h-fit gap-x-14">
-        <div class="pl-8 p-3 content-center">
+        <div class="pl-6 p-3 content-center">
             <h1 class="text-xl font-bold">
                 <!-- temporary locker name, need to change with actual locker name -->
                 Mylocker
