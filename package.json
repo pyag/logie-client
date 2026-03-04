@@ -12,16 +12,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.18",
+    "@tailwindcss/vite": "^4.2.1",
     "lodash-es": "^4.17.23",
     "lucide-vue-next": "^0.564.0",
-    "marked": "^17.0.1",
-    "tailwindcss": "^4.1.18",
-    "vue": "^3.5.27"
+    "marked": "^17.0.3",
+    "tailwindcss": "^4.2.1",
+    "vue": "^3.5.29"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^6.0.3",
+    "@vitejs/plugin-vue": "^6.0.4",
     "vite": "^7.3.1",
-    "vite-plugin-vue-devtools": "^8.0.5"
+    "vite-plugin-vue-devtools": "^8.0.7"
   }
 }

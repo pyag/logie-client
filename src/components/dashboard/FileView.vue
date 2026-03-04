@@ -25,7 +25,10 @@ const props = defineProps<{
                 </div>
             </div>
 
-            <div class="pt-1 pb-5 overflow-y-auto">
+            <div v-if="!files.data || files.data.length === 0" class="py-4 italic text-center text-gray-600">
+                No files found.
+            </div>
+            <div v-else class="pt-1 pb-5 overflow-y-auto">
                 <div v-for="file in files.data" :key="file.name" class="flex even:bg-blue-100 rounded-lg">
                     <div v-for="key in files.header" :key="key" class="w-1/4">
                         <div class="py-1 px-2 text-base">
