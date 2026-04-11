@@ -2,31 +2,19 @@
 import { ref } from "vue";
 import { Search } from "lucide-vue-next";
 
-import BrandingSection from "./BrandingSection.vue";
 import Button from "../Button.vue";
-import Modal from "../Modal.vue";
 
-import Link from "../Link.vue";
-import Login from "../Login.vue";
 import Input from "../Input.vue";
-import Signup from "../Signup.vue";
+import FrontPageModal from "./FrontPageModal.vue";
 
-const isOpenModal = ref(false);
-const currentModel = ref(null);
+const modalRef = ref();  // Template ref to access the modal's exposed methods
 
 const openSignUpModel = () => {
-    currentModel.value = "signup";
-    isOpenModal.value = true;
+    modalRef.value.openSignUp();  // Call the exposed method
 };
 
 const openLogInModel = () => {
-    currentModel.value = "login";
-    isOpenModal.value = true;
-};
-
-const closeModal = () => {
-    isOpenModal.value = false;
-    currentModel.value = null;
+    modalRef.value.openLogin();  // Call the exposed method
 };
 
 </script>
@@ -39,9 +27,9 @@ const closeModal = () => {
                 <div class="flex justify-end text-xl -mt-15 mr-2.5 italic">Online lockers</div>
             </div>
             <div class="flex gap-x-4 mb-6">
-                <Button @click="openSignUpModel">Sign Up</Button>
-                <Button>Create temporary locker</Button>
-                <Button @click="openLogInModel">Log In</Button>
+                <Button @click="openSignUpModel" class="w-50 font-normal">Create locker</Button>
+                <!-- <Button>Create temporary locker</Button> -->
+                <Button @click="openLogInModel" class="w-50 font-normal">Log In</Button>
             </div>
             <Input :placeholder="`Search lockers`" :extra-div-classes="`!rounded-full w-3xl max-w-3xl focus-within:ring-gray-400`"
                 :extra-input-classes="`!py-2 !px-4`">
@@ -52,29 +40,7 @@ const closeModal = () => {
         </div>
     </div>
 
-    <Teleport to="body">
-        <Modal v-if="isOpenModal === true" @close="closeModal">
-            <div v-if="currentModel === 'signup'" class="w-[19vw] h-[55vh]">
-                <Signup />
-                <div class="flex flex-col items-end mt-5 mb-5 text-sm">
-                    <Link>Create temporary locker</Link>
-                    <Link @click="currentModel = 'login'">
-                        Login
-                    </Link>
-                </div>
-                <BrandingSection section-placeholder="or sign up with" />
-            </div>
-            <div v-else-if="currentModel === 'login'" class="w-[19vw] h-[49vh]">
-                <Login />
-                <div class="flex flex-col items-end mt-5 mb-5 text-sm">
-                    <Link>Forgot password</Link>
-                    <Link>Create temporary locker</Link>
-                    <Link @click="currentModel = 'signup'">Sign up</Link>
-                </div>
-                <BrandingSection section-placeholder="or log in with" />
-            </div>
-        </Modal>
-    </Teleport>
+    <FrontPageModal ref="modalRef" />
 </template>
 
 <style scoped>
