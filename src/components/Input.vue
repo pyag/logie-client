@@ -9,6 +9,7 @@ interface Props {
     type?: string;
     id?: string;
     name?: string;
+    modelValue?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -21,19 +22,25 @@ const props = withDefaults(defineProps<Props>(), {
     id: "",
     name: "",
     placeholder: "",
-    extraClasses: "",
+    modelValue: "",
+    extraDivClasses: "",
+    extraInputClasses: "",
 });
+
+const emit = defineEmits(['update:modelValue']);
 </script>
 
 <template>
 <div :class="`${divClazz} ${extraDivClasses || ''}`">
     <input
-        :class="`${inputClazz} ${extraInputClasses || ''}`",
+        :class="`${inputClazz} ${extraInputClasses || ''}`"
         :disabled="disabled"
         :placeholder="placeholder"
         :type="type"
         :id="id"
-        :name="name"/>
+        :name="name"
+        :value="modelValue"
+        @input="emit('update:modelValue', $event.target.value)"/>
     <slot></slot>
 </div>
 </template>

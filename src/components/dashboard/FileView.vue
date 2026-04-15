@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, Ref, ref } from 'vue';
 
 import { getFiles } from '@/api/file';
 import ListView from './fileViews/ListView.vue';
 
-const files = ref({
+const files: Ref = ref({
     header: [],
     data: []
 });

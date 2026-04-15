@@ -11,6 +11,7 @@ interface Props {
     placeholder?: string;
     id?: string;
     name?: string;
+    modelValue?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -18,7 +19,10 @@ const props = withDefaults(defineProps<Props>(), {
     id: "",
     name: "",
     placeholder: "",
+    modelValue: "",
 });
+
+const emit = defineEmits(['update:modelValue']);
 
 const visible = ref(false);
 const type = ref("password");
@@ -31,7 +35,9 @@ function toggleVisibility() {
 
 <template>
 <Input :type="type" :id="id" :name="name"
-    :placeholder="placeholder" :disabled="disabled">
+    :placeholder="placeholder" :disabled="disabled"
+    :modelValue="modelValue"
+    @update:modelValue="(value) => emit('update:modelValue', value)">
     <Button @click="toggleVisibility"
         extra-classes="!border-none !text-gray-300 hover:!bg-gray-300 !rounded-lg !bg-none !py-0">
         <template v-if="visible">

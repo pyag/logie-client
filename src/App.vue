@@ -3,7 +3,7 @@ import Dashboard from "./components/Dashboard.vue";
 import FrontPage from "./components/frontpage/FrontPage.vue";
 
 const isUserLoggedIn = () => {
-    return true; // Placeholder logic; replace with actual authentication check
+    return false; // Placeholder logic; replace with actual authentication check
 }
 </script>
 
