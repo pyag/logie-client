@@ -1,9 +1,8 @@
 import httpClient from "./httpClient";
 
 export async function saveLocker(lname: string, password: string, cnfrm_password: string, email: string)
-    : Promise<void> {
+    : Promise<CreateLockerResponse> {
     try {
-
         const lockerData = await httpClient.post('/signup/', {
             lockername: lname,
             password,
@@ -11,14 +10,38 @@ export async function saveLocker(lname: string, password: string, cnfrm_password
             email
         });
 
-        //return lockerData as LockerResponse;
+        return lockerData as CreateLockerResponse;
     } catch (error) {
         console.error("Error creating locker:", error);
         throw error;
     }
 }
 
-type LockerResponse = {
-    lockerId: string;
+export async function getCurrentUser(): Promise<GetCurrentUserResponse> {
+    try {
+        const response = await httpClient.get('/me/');
+        return response as GetCurrentUserResponse;
+    } catch (error) {
+        console.error("Error fetching current user:", error);
+        throw error;
+    }
+}
+
+export type CreateLockerResponse = {
     message: string;
+    status_code: number;
+    success: boolean;
+    data?: object;
+};
+
+export type GetCurrentUserResponse = {
+    message: string;
+    status_code: number;
+    success: boolean;
+    data?: {
+        user_id: string;
+        locker_name: string;
+        email: string;
+        session_created: string;
+    };
 };

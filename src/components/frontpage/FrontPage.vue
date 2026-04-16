@@ -3,18 +3,18 @@ import { ref } from "vue";
 import { Search } from "lucide-vue-next";
 
 import Button from "../Button.vue";
-
 import Input from "../Input.vue";
 import FrontPageModal from "./FrontPageModal.vue";
 
+const emit = defineEmits(['authenticated']);
 const modalRef = ref();  // Template ref to access the modal's exposed methods
 
 const openSignUpModel = () => {
-    modalRef.value.openSignUp();  // Call the exposed method
+    modalRef.value.openSignUp();
 };
 
 const openLogInModel = () => {
-    modalRef.value.openLogin();  // Call the exposed method
+    modalRef.value.openLogin();
 };
 
 </script>
@@ -40,7 +40,7 @@ const openLogInModel = () => {
         </div>
     </div>
 
-    <FrontPageModal ref="modalRef" />
+    <FrontPageModal ref="modalRef" @authenticated="emit('authenticated')" />
 </template>
 
 <style scoped>

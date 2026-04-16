@@ -1,26 +1,27 @@
-<script setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { Ref, ref } from 'vue';
+import { saveLocker } from '@/api/user';
 
 import Button from "./Button.vue";
 import Input from "./Input.vue";
 import Password from "./Password.vue";
 import SectionHeading from "./SectionHeading.vue";
 
-import { saveLocker } from '@/api/user';
+const emit = defineEmits(['authenticated']);
 
-const lname = ref('')
-const password = ref('')
-const cnfrm_password = ref('')
-const email = ref('')
+const lname: Ref<string> = ref('');
+const password: Ref<string> = ref('');
+const cnfrm_password: Ref<string> = ref('');
+const email: Ref<string> = ref('');
 
 const createLocker = async () => {
-    // Placeholder function; replace with actual locker creation logic
-    await saveLocker(lname.value, password.value, cnfrm_password.value, email.value);
-
-    // Refresh the page or navigate to the dashboard after locker creation
-    window.location.reload();
-}
-
+    try {
+        await saveLocker(lname.value, password.value, cnfrm_password.value, email.value);
+        emit('authenticated');
+    } catch (error) {
+        console.error('Error creating locker:', error);
+    }
+};
 </script>
 
 <template>

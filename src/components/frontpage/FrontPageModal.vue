@@ -5,8 +5,9 @@ import Signup from "../Signup.vue";
 import Link from "../Link.vue";
 import Login from "../Login.vue";
 
+const emit = defineEmits(['authenticated']);
 const isOpenModal: Ref = ref(false);
-const currentModel: Ref = ref(null);
+const currentModel: Ref<string | null> = ref(null);
 
 const openSignUp = () => {
     currentModel.value = "signup";
@@ -23,6 +24,11 @@ const closeModal = () => {
     currentModel.value = null;
 };
 
+const handleAuthenticated = () => {
+    closeModal();
+    emit('authenticated');
+};
+
 // Expose methods so they can be called from FrontPage.vue via a ref
 defineExpose({
     openSignUp,
@@ -34,7 +40,7 @@ defineExpose({
     <Teleport to="body">
         <Modal v-if="isOpenModal === true" @close="closeModal">
             <div v-if="currentModel === 'signup'" class="w-[19vw] h-[55vh]">
-                <Signup />
+                <Signup @authenticated="handleAuthenticated" />
                 <div class="flex flex-col items-end mt-5 mb-5 text-sm">
                     <!-- <Link>Create temporary locker</Link> -->
                     <Link @click="currentModel = 'login'">
