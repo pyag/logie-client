@@ -50,7 +50,7 @@ defineExpose({
                 <!-- <BrandingSection section-placeholder="or sign up with" /> -->
             </div>
             <div v-else-if="currentModel === 'login'" class="w-[19vw] h-[49vh]">
-                <Login />
+                <Login @authenticated="handleAuthenticated" />
                 <div class="flex flex-col items-end mt-5 mb-5 text-sm">
                     <Link>Forgot password</Link>
                     <!-- <Link>Create temporary locker</Link> -->

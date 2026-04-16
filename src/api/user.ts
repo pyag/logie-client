@@ -34,17 +34,24 @@ export type CreateLockerResponse = {
     data?: object;
 };
 
-export type GetCurrentUserResponse = {
+export type LoginResponse = {
     message: string;
     status_code: number;
     success: boolean;
-    data?: {
-        user_id: string;
-        locker_name: string;
-        email: string;
-        session_created: string;
-    };
 };
+
+export async function login(identifier: string, password: string): Promise<LoginResponse> {
+    try {
+        const response = await httpClient.post('/login/', {
+            identifier,
+            password,
+        });
+        return response as LoginResponse;
+    } catch (error) {
+        console.error('Error logging in:', error);
+        throw error;
+    }
+}
 
 export async function logout(): Promise<{ success: boolean }> {
     try {
