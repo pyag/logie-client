@@ -11,7 +11,7 @@ import SectionHeading from "./SectionHeading.vue";
             <SectionHeading>login</SectionHeading>
 
             <Input type="text" id="username" name="username"
-            placeholder="Locker name or email or phone number" />
+            placeholder="Locker name or email" />
 
             <Password id="password" name="password" placeholder="Password" />
 

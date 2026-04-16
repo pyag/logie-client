@@ -43,6 +43,8 @@ const listItems: { name: string; icon: any }[] = [
     },
 ];
 
+const emit = defineEmits(['logout']);
+
 const actionItems: { name: string; icon: any }[] = [
     {
         name: 'settings',
@@ -53,6 +55,13 @@ const actionItems: { name: string; icon: any }[] = [
         icon: LogOut,
     }
 ];
+
+const handleActionClick = (name: string) => {
+    active.value = name;
+    if (name === 'logout') {
+        emit('logout');
+    }
+};
 
 </script>
 
@@ -77,7 +86,7 @@ const actionItems: { name: string; icon: any }[] = [
                 v-for="item in actionItems"
                 :key="item.name"
                 :class="actionLiClass(item.name)"
-                @click="active = item.name"
+                @click="handleActionClick(item.name)"
             >
                 <div><component :is="item.icon" /></div>
                 <div>{{ item.name.charAt(0).toUpperCase() + item.name.slice(1) }}</div>

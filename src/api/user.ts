@@ -45,3 +45,13 @@ export type GetCurrentUserResponse = {
         session_created: string;
     };
 };
+
+export async function logout(): Promise<{ success: boolean }> {
+    try {
+        const response = await httpClient.post('/logout/', {});
+        return response as { success: boolean };
+    } catch (error) {
+        console.error('Error logging out:', error);
+        throw error;
+    }
+}
