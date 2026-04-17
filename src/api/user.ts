@@ -27,6 +27,18 @@ export async function getCurrentUser(): Promise<GetCurrentUserResponse> {
     }
 }
 
+export type GetCurrentUserResponse = {
+    message: string;
+    status_code: number;
+    success: boolean;
+    data?: {
+        user_id: string;
+        locker_name: string;
+        email: string;
+        session_created: string;
+    };
+};
+
 export type CreateLockerResponse = {
     message: string;
     status_code: number;

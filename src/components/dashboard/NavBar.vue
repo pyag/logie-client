@@ -1,14 +1,16 @@
 <script setup lang="ts">
+import { useUserStore } from '../../stores/user';
 import Input from '../Input.vue';
 import UserOptions from './UserOptions.vue'
+
+const userStore = useUserStore();
 </script>
 
 <template>
     <div class="bg-gray-100 w-full flex h-fit gap-x-14">
         <div class="pl-6 p-3 content-center">
             <h1 class="text-xl font-bold">
-                <!-- temporary locker name, need to change with actual locker name -->
-                Mylocker
+                {{ userStore.currentUser?.locker_name }}
             </h1>
         </div>
         <div class="p-3 w-1/3 content-center">
