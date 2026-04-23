@@ -9,10 +9,14 @@ export default {
         const response = await fetch(`${SERVER_URL}${endpoint}`, {
             ...requestOptions,
         });
+        const data = await response.json();
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const error: any = new Error(`HTTP error! status: ${response.status}`);
+            error.status = response.status;
+            error.data = data;
+            throw error;
         }
-        return await response.json();
+        return data;
     },
 
     post: async (endpoint: string, data: any) => {
@@ -24,9 +28,13 @@ export default {
             body: JSON.stringify(data),
             ...requestOptions,
         });
+        const responseData = await response.json();
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const error: any = new Error(`HTTP error! status: ${response.status}`);
+            error.status = response.status;
+            error.data = responseData;
+            throw error;
         }
-        return await response.json();
+        return responseData;
     },
 };

@@ -9,6 +9,7 @@ interface Props {
     type?: string;
     id?: string;
     name?: string;
+    required?: boolean;
     modelValue?: string;
 }
 
@@ -21,6 +22,7 @@ const props = withDefaults(defineProps<Props>(), {
     type: "",
     id: "",
     name: "",
+    required: false,
     placeholder: "",
     modelValue: "",
     extraDivClasses: "",
@@ -40,6 +42,7 @@ const emit = defineEmits(['update:modelValue']);
         :id="id"
         :name="name"
         :value="modelValue"
+        :required="required"
         @input="emit('update:modelValue', $event.target.value)"/>
     <slot></slot>
 </div>

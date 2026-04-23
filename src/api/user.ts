@@ -22,7 +22,6 @@ export async function getCurrentUser(): Promise<GetCurrentUserResponse> {
         const response = await httpClient.get('/me/');
         return response as GetCurrentUserResponse;
     } catch (error) {
-        console.error("Error fetching current user:", error);
         throw error;
     }
 }
@@ -54,12 +53,22 @@ export type LoginResponse = {
 
 export async function login(identifier: string, password: string): Promise<LoginResponse> {
     try {
-        const response = await httpClient.post('/login/', {
+        const response: LoginResponse = await httpClient.post('/login/', {
             identifier,
             password,
         });
+
         return response as LoginResponse;
-    } catch (error) {
+    } catch (error: any) {
+        // Handle 401 Unauthorized (wrong credentials) as a normal response
+        if (error.status === 401 && error.data) {
+            return {
+                success: false,
+                message: error.data.message || 'Unauthorized access. Please check your credentials.',
+                status_code: 401,
+            };
+        }
+        // Re-throw other errors (network, server errors, etc.)
         console.error('Error logging in:', error);
         throw error;
     }

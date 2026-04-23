@@ -11,6 +11,7 @@ interface Props {
     placeholder?: string;
     id?: string;
     name?: string;
+    required?: boolean;
     modelValue?: string;
 }
 
@@ -18,6 +19,7 @@ const props = withDefaults(defineProps<Props>(), {
     disabled: false,
     id: "",
     name: "",
+    required: false,
     placeholder: "",
     modelValue: "",
 });
@@ -34,8 +36,13 @@ function toggleVisibility() {
 </script>
 
 <template>
-<Input :type="type" :id="id" :name="name"
-    :placeholder="placeholder" :disabled="disabled"
+<Input
+    :type="type"
+    :id="id"
+    :name="name"
+    :placeholder="placeholder"
+    :disabled="disabled"
+    :required="required"
     :modelValue="modelValue"
     @update:modelValue="(value) => emit('update:modelValue', value)">
     <Button @click="toggleVisibility"

@@ -67,7 +67,7 @@ const handleActionClick = (name: string) => {
 
 <template>
     <div class="w-74 bg-gray-200 flex flex-col gap-y-6">
-        <Logo />
+        <!-- <Logo /> -->
         <Label extra-classes="!text-lg pl-6">Menu</Label>
         <ul class="flex flex-col gap-y-1 px-3">
             <li
