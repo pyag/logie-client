@@ -19,16 +19,17 @@ const loginLoading: Ref<boolean> = ref(false);
 const loginUser = async () => {
     loginLoading.value = true;
     errorMessage.value = ''; // Clear previous error message
-    let response: LoginResponse = await login(identifier.value, password.value);
 
     try {
+        let response: LoginResponse = await login(identifier.value, password.value);
+
         if (response.success) {
             emit('authenticated');
         } else {
             errorMessage.value = response.message || 'Login failed. Please check your credentials and try again.';
             console.error('Login failed:', response.message);
         }
-    } catch (error) {
+    } catch (error: any) {
         errorMessage.value = 'Something went wrong. Please try again later.';
         console.error('Login failed:', error);
     } finally {
