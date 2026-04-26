@@ -11,8 +11,19 @@ export async function saveLocker(lname: string, password: string, cnfrm_password
         });
 
         return lockerData as CreateLockerResponse;
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error creating locker:", error);
+        // Handle validation errors from backend
+        if (error.status && error.data) {
+            // FastAPI returns error details in the 'detail' field
+            const errorDetail = error.data.detail || error.data.message || 'Signup failed. Try again after sometime.';
+            return {
+                success: false,
+                message: typeof errorDetail === 'string' ? errorDetail : JSON.stringify(errorDetail),
+                status_code: error.status,
+            };
+        }
+        // For network or other errors
         throw error;
     }
 }

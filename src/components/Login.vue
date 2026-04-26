@@ -21,6 +21,10 @@ const loginUser = async () => {
     errorMessage.value = ''; // Clear previous error message
 
     try {
+        if (!identifier.value || !password.value) {
+            errorMessage.value = 'Please fill in all required fields.';
+            return;
+        }
         let response: LoginResponse = await login(identifier.value, password.value);
 
         if (response.success) {
