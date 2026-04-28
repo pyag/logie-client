@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Ref, ref } from 'vue';
 import { CreateLockerResponse, saveLocker } from '@/api/user';
+import { isStrongPassword } from 'validator';
 
 import { Ellipsis } from "lucide-vue-next";
 
@@ -18,6 +19,35 @@ const email: Ref<string> = ref('');
 const errorMessage: Ref<string> = ref('');
 const loading: Ref<boolean> = ref(false);
 
+const validatePassword = (password: string, confirmPassword: string): { valid: boolean; message: string } => {
+    if (password !== confirmPassword) {
+        return {
+            valid: false,
+            message: 'Passwords do not match.'
+        };
+    }
+
+    const isValid = isStrongPassword(password, {
+        minLength: 8,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 1,
+    });
+
+    if (!isValid) {
+        return {
+            valid: false,
+            message: 'Password does not meet strength requirements (8+ chars, uppercase, lowercase, number and symbol).'
+        };
+    }
+
+    return {
+        valid: true,
+        message: ''
+    };
+};
+
 const createLocker = async () => {
     loading.value = true;
     errorMessage.value = ''; // Clear previous error message
@@ -25,6 +55,12 @@ const createLocker = async () => {
     try {
         if (!lname.value || !password.value || !cnfrm_password.value) {
             errorMessage.value = 'Please fill in all required fields.';
+            return;
+        }
+
+        const passwordValidation = validatePassword(password.value, cnfrm_password.value);
+        if (!passwordValidation.valid) {
+            errorMessage.value = passwordValidation.message;
             return;
         }
 
