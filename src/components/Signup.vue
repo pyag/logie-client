@@ -101,7 +101,7 @@ const createLocker = async () => {
         <Password :required=true id="cnfrm-password" v-model="cnfrm_password" name="cnfrm-password" placeholder="Confirm password" />
 
         <Input type="text" id="email" v-model="email" name="email"
-        placeholder="Email or Phone (optional)" />
+        placeholder="Email (optional)" />
 
         <div v-if="errorMessage" class="text-red-700 text-base/5">{{ errorMessage }}</div>
 
