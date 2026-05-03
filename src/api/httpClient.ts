@@ -31,14 +31,18 @@ export default {
         }
     },
 
-    post: async (endpoint: string, data: any) => {
+    post: async (endpoint: string, data: any, formData: FormData | null = null) => {
         try {
+            const headers = formData
+                ? undefined
+                : {
+                      'Content-Type': 'application/json',
+                  };
+
             const response = await fetch(`${SERVER_URL}${endpoint}`, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
+                headers,
+                body: formData || JSON.stringify(data),
                 ...requestOptions,
                 signal: AbortSignal.timeout(REQUEST_TIMEOUT),
             });

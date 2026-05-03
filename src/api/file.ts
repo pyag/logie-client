@@ -21,3 +21,13 @@ export async function getFiles(): Promise<FilesResponse> {
         throw error;
     }
 }
+
+export async function uploadChunk(formData: FormData): Promise<any> {
+    try {
+        const response = await httpClient.post('/upload/chunk/', null, formData);
+        return response;
+    } catch (error) {
+        console.error("Error uploading chunk:", error);
+        throw error;
+    }
+}
