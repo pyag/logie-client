@@ -9,7 +9,7 @@ import type { UploadItem } from '@/types/uploadTypes';
 
 const files: Ref = ref({
     header: [] as string[],
-    data: [] as { name: string; type: string; size: string; modified: string }[],
+    data: [] as { file_id: string, name: string; type: string; size: string; modified: string }[],
 });
 const showUploadModal = ref(false);
 const uploadItems: Ref<UploadItem[]> = ref<UploadItem[]>([]);
