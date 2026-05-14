@@ -31,6 +31,33 @@ export default {
         }
     },
 
+    getBlob: async (endpoint: string) => {
+        try {
+            const response = await fetch(`${SERVER_URL}${endpoint}`, {
+                ...requestOptions,
+                signal: AbortSignal.timeout(REQUEST_TIMEOUT),
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                const error: any = new Error(`HTTP error! status: ${response.status}`);
+                error.status = response.status;
+                error.data = errorText;
+                throw error;
+            }
+
+            return await response.blob();
+        } catch (error: any) {
+            if (error.status) {
+                throw error;
+            }
+            const serverError: any = new Error('Internal Server Error');
+            serverError.status = 500;
+            serverError.data = { message: 'Unable to reach backend server' };
+            throw serverError;
+        }
+    },
+
     post: async (endpoint: string, data: any, formData: FormData | null = null) => {
         try {
             const headers = formData

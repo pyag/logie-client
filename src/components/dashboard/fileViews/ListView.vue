@@ -54,7 +54,7 @@ function formatModifiedDate(dateString: string): string {
                     <td class="py-1.5 px-2 text-base">{{ file.size }}</td>
                     <td class="py-1.5 px-2 text-base">{{ formatModifiedDate(file.modified) }}</td>
                     <td class="py-1.5 px-2 text-base flex">
-                        <Link class="text-blue-600" @click="$emit('download', file.file_id)">Download</Link>
+                        <Link class="text-blue-600" @click="$emit('download', file.file_id, file.name)">Download</Link>
                         <Link class="ml-4 text-green-600" @click="$emit('hide', file.file_id)">Hide</Link>
                         <Link class="ml-4 text-red-600" @click="$emit('delete', file.file_id)">Delete</Link>
                     </td>

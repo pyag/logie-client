@@ -3,7 +3,7 @@ import { onMounted, Ref, ref } from 'vue';
 
 import Button from "@/components/Button.vue";
 import UploadModal from "./UploadModal.vue";
-import { getFiles, uploadChunk } from '@/api/file';
+import { getFiles, uploadChunk, downloadFile } from '@/api/file';
 import ListView from './fileViews/ListView.vue';
 import type { UploadItem } from '@/types/uploadTypes';
 
@@ -114,11 +114,27 @@ async function uploadAll() {
     await Promise.allSettled(uploads);
     isUploading.value = false;
 }
+
+async function handleDownload(fileId: string, filename: string) {
+    try {
+        const blob = await downloadFile(fileId);
+        const downloadUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = downloadUrl;
+        anchor.download = filename;
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        URL.revokeObjectURL(downloadUrl);
+    } catch (error) {
+        console.error('Error downloading file:', error);
+    }
+}
 </script>
 
 <template>
     <div class="p-1">
-        <ListView :files="files" />
+        <ListView :files="files" @download="handleDownload" />
 
         <div class="mt-4">
             <Button @click="openFileDialog">

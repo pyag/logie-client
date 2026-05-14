@@ -31,3 +31,13 @@ export async function uploadChunk(formData: FormData): Promise<any> {
         throw error;
     }
 }
+
+export async function downloadFile(fileId: string): Promise<Blob> {
+    try {
+        const blob = await httpClient.getBlob(`/download/${fileId}`);
+        return blob;
+    } catch (error) {
+        console.error("Error downloading file:", error);
+        throw error;
+    }
+}
