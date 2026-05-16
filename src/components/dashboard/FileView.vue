@@ -3,13 +3,13 @@ import { onMounted, Ref, ref } from 'vue';
 
 import Button from "@/components/Button.vue";
 import UploadModal from "./UploadModal.vue";
-import { getFiles, uploadChunk, downloadFile } from '@/api/file';
+import { FileEntry, getFiles, uploadChunk, downloadFile } from '@/api/file';
 import ListView from './fileViews/ListView.vue';
 import type { UploadItem } from '@/types/uploadTypes';
 
 const files: Ref = ref({
     header: [] as string[],
-    data: [] as { file_id: string, name: string; type: string; size: string; modified: string }[],
+    data: [] as FileEntry[],
 });
 const showUploadModal = ref(false);
 const uploadItems: Ref<UploadItem[]> = ref<UploadItem[]>([]);
@@ -142,25 +142,11 @@ async function handleDownload(fileId: string, filename: string) {
             </Button>
         </div>
 
-        <input
-            ref="fileInputRef"
-            type="file"
-            multiple
-            class="hidden"
-            @change="handleFileSelection"
-        />
+        <input ref="fileInputRef" type="file" multiple class="hidden" @change="handleFileSelection" />
 
-        <UploadModal
-            :showModal="showUploadModal"
-            :uploadItems="uploadItems"
-            :uploading="isUploading"
-            @close="closeUploadModal"
-            @upload="uploadAll"
-            @remove-file="removeUploadItem"
-            @clear="clearAllUploads"
-        />
+        <UploadModal :showModal="showUploadModal" :uploadItems="uploadItems" :uploading="isUploading"
+            @close="closeUploadModal" @upload="uploadAll" @remove-file="removeUploadItem" @clear="clearAllUploads" />
     </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -1,16 +1,11 @@
 <script setup lang="ts">
+import { FileEntry } from '@/api/file';
 import Link from '@/components/Link.vue';
 
 const props = defineProps<{
     files: {
         header: string[],
-        data: {
-            file_id: string,
-            name: string,
-            type: string,
-            size: string,
-            modified: string
-        }[]
+        data: FileEntry[]
     }
 }>();
 

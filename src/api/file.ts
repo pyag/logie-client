@@ -1,9 +1,11 @@
 import httpClient from "./httpClient";
 
-type FileEntry = {
+export type FileEntry = {
+    file_id: string,
     name: string;
     type: string;
     size: string;
+    hidden: boolean;
     modified: string;
 };
 
