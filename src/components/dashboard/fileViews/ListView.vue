@@ -41,10 +41,13 @@ function formatModifiedDate(dateString: string): string {
 
             <tbody class="divide-y divide-gray-200">
                 <tr v-if="!files.data || files.data.length === 0">
-                    <td class="py-4 px-2 italic text-center text-gray-600" colspan="4">No files found.</td>
+                    <td class="py-4 px-2 italic text-center text-gray-600" colspan="5">No files found.</td>
                 </tr>
-                <tr v-else v-for="file in files.data" :key="file.name" class="even:bg-blue-50 rounded! border-none">
-                    <td class="py-1.5 px-2 overflow-hidden whitespace-nowrap text-ellipsis text-base" :title="file.name">{{ file.name }}</td>
+                <tr v-else v-for="file in files.data" :key="file.name" :class="[{ 'opacity-95': file.hidden }, 'even:bg-blue-50', 'rounded!', 'border-none']">
+                    <td class="py-1.5 px-2 overflow-hidden whitespace-nowrap text-ellipsis" :title="file.name">
+                        <span :class="file.hidden ? 'text-gray' : ''">{{ file.name }}</span>
+                        <span v-if="file.hidden" class="ml-2 inline-flex items-center rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-600">Hidden</span>
+                    </td>
                     <td class="py-1.5 px-2 text-base">{{ file.type }}</td>
                     <td class="py-1.5 px-2 text-base">{{ file.size }}</td>
                     <td class="py-1.5 px-2 text-base">{{ formatModifiedDate(file.modified) }}</td>
