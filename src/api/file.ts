@@ -43,3 +43,13 @@ export async function downloadFile(fileId: string): Promise<Blob> {
         throw error;
     }
 }
+
+export async function hideFile(fileId: string): Promise<any> {
+    try {
+        const response = await httpClient.post(`/hide/${fileId}`, null);
+        return response;
+    } catch (error) {
+        console.error("Error hiding file:", error);
+        throw error;
+    }
+}
