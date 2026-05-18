@@ -53,3 +53,13 @@ export async function hideFile(fileId: string): Promise<any> {
         throw error;
     }
 }
+
+export async function unhideFile(fileId: string): Promise<any> {
+    try {
+        const response = await httpClient.post(`/unhide/${fileId}`, null);
+        return response;
+    } catch (error) {
+        console.error("Error unhiding file:", error);
+        throw error;
+    }
+}
