@@ -63,3 +63,13 @@ export async function unhideFile(fileId: string): Promise<any> {
         throw error;
     }
 }
+
+export async function deleteFile(fileId: string): Promise<any> {
+    try {
+        const response = await httpClient.post(`/delete/${fileId}`, null);
+        return response;
+    } catch (error) {
+        console.error("Error deleting file:", error);
+        throw error;
+    }
+}

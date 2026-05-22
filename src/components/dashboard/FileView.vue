@@ -3,7 +3,7 @@ import { onMounted, Ref, ref } from 'vue';
 
 import Button from "@/components/Button.vue";
 import UploadModal from "./UploadModal.vue";
-import { FileEntry, getFiles, uploadChunk, downloadFile, hideFile, unhideFile } from '@/api/file';
+import { FileEntry, getFiles, uploadChunk, downloadFile, hideFile, unhideFile, deleteFile } from '@/api/file';
 import ListView from './fileViews/ListView.vue';
 import type { UploadItem } from '@/types/uploadTypes';
 
@@ -148,11 +148,24 @@ async function handleUnhideFile(fileId: string) {
         console.error('Error unhiding file:', error);
     }
 }
+
+async function handleDeleteFile(fileId: string) {
+    try {
+        await deleteFile(fileId);
+        await refreshFiles();
+    } catch (error) {
+        console.error('Error deleting file:', error);
+    }
+}
 </script>
 
 <template>
     <div class="p-1">
-        <ListView :files="files" @download="handleDownload" @hide="handleHideFile" @unhide="handleUnhideFile" />
+        <ListView :files="files"
+            @download="handleDownload"
+            @hide="handleHideFile"
+            @unhide="handleUnhideFile"
+            @delete="handleDeleteFile" />
 
         <div class="mt-4">
             <Button @click="openFileDialog">
