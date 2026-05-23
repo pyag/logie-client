@@ -45,6 +45,7 @@ export type GetCurrentUserResponse = {
         user_id: string;
         locker_name: string;
         email: string;
+        root_id: string;
         session_created: string;
     };
 };

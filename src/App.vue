@@ -8,16 +8,16 @@ const userStore = useUserStore();
 const isLoading = ref(true);
 
 const checkLoginStatus = async () => {
-  await userStore.fetchCurrentUser();
+    await userStore.fetchCurrentUser();
 };
 
 const handleLogout = async () => {
-  await userStore.performLogout();
+    await userStore.performLogout();
 };
 
 onMounted(async () => {
-  await checkLoginStatus();
-  isLoading.value = false;
+    await checkLoginStatus();
+    isLoading.value = false;
 });
 </script>
 
@@ -28,5 +28,4 @@ onMounted(async () => {
     </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
