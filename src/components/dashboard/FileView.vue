@@ -6,6 +6,7 @@ import UploadModal from "./UploadModal.vue";
 import { FileEntry, getFiles, uploadChunk, downloadFile, hideFile, unhideFile, deleteFile } from '@/api/file';
 import ListView from './fileViews/ListView.vue';
 import type { UploadItem } from '@/types/uploadTypes';
+import { getParentId } from '@/logic/fpath';
 
 const files: Ref = ref({
     header: [] as string[],
@@ -18,7 +19,8 @@ const fileInputRef: Ref<HTMLInputElement | null> = ref<HTMLInputElement | null>(
 
 async function refreshFiles() {
     try {
-        const json = await getFiles();
+        const pid = getParentId();
+        const json = await getFiles(pid);
         files.value.data = json.data;
         files.value.header = json.header;
     } catch (error) {
@@ -75,6 +77,7 @@ async function uploadSingleFile(item: UploadItem) {
     const chunkSize = 1024 * 1024;
     const totalChunks = Math.max(1, Math.ceil(item.file.size / chunkSize));
     const uploadId = generateUploadId();
+    const pid = getParentId();
 
     try {
         for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex += 1) {
@@ -90,6 +93,7 @@ async function uploadSingleFile(item: UploadItem) {
             formData.append('file_size', String(item.file.size));
             formData.append('chunk_index', String(chunkIndex));
             formData.append('total_chunks', String(totalChunks));
+            formData.append('pid', String(pid));
 
             await uploadChunk(formData);
             item.progress = Math.round(((chunkIndex + 1) / totalChunks) * 100);

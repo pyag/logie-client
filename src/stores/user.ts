@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { getCurrentUser, logout, GetCurrentUserResponse } from '../api/user';
-import { setInitialFolderPath } from '../logic/fpath';
+import { setInitialFolderPath, clearFolderPath, clearParentId } from '../logic/fpath';
 
 export const useUserStore = defineStore('user', () => {
     const currentUser = ref<GetCurrentUserResponse['data'] | null>(null);
@@ -12,7 +12,7 @@ export const useUserStore = defineStore('user', () => {
             const response = await getCurrentUser();
             if (response.success && response.data) {
                 currentUser.value = response.data;
-                setInitialFolderPath(); // Set initial path to root when user logs in
+                setInitialFolderPath(currentUser.value.root_id); // Set initial path to root when user logs in
             } else {
                 currentUser.value = null;
             }
@@ -23,6 +23,8 @@ export const useUserStore = defineStore('user', () => {
 
     const clearUser = () => {
         currentUser.value = null;
+        clearFolderPath(); // Clear folder path on logout
+        clearParentId(); // Clear parent ID on logout
     };
 
     const performLogout = async () => {

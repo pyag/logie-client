@@ -14,9 +14,9 @@ type FilesResponse = {
     data: FileEntry[];
 };
 
-export async function getFiles(): Promise<FilesResponse> {
+export async function getFiles(pid: string): Promise<FilesResponse> {
     try {
-        const fileData = await httpClient.get('/files/');
+        const fileData = await httpClient.get(`/files?pid=${pid}`);
         return fileData as FilesResponse;
     } catch (error) {
         console.error("Error fetching file:", error);

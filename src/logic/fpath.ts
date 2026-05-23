@@ -9,10 +9,23 @@ export function clearFolderPath() {
     localStorage.removeItem('curPath');
 }
 
-export function setInitialFolderPath() {
+export function clearParentId() {
+    localStorage.removeItem('pid');
+}
+
+export function setInitialFolderPath(rootId: string) {
     if (!localStorage.getItem('curPath')) {
-        localStorage.setItem('curPath', JSON.stringify(['/']));
+        localStorage.setItem('curPath', JSON.stringify(['']));
+        localStorage.setItem('pid', rootId);
     }
+}
+
+export function getParentId(): string {
+    return localStorage.getItem('pid') || '';
+}
+
+export function setParentId(pid: string) {
+    localStorage.setItem('pid', pid);
 }
 
 export function addFolderToPath(folderName: string) {
@@ -25,7 +38,7 @@ export function addFolderToPath(folderName: string) {
     localStorage.setItem('curPath', JSON.stringify(pathArray));
 }
 
-export function removeLastFolderFromPath() {4
+export function removeLastFolderFromPath() {
     const path = localStorage.getItem('curPath');
     if (path) {
         let pathArray: string[] = JSON.parse(path);
