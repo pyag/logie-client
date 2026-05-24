@@ -14,6 +14,11 @@ type FilesResponse = {
     data: FileEntry[];
 };
 
+export type CreateFolderResponse = {
+    message: string;
+    fid?: string;
+};
+
 export async function getFiles(pid: string): Promise<FilesResponse> {
     try {
         const fileData = await httpClient.get(`/files?pid=${pid}`);
@@ -70,6 +75,20 @@ export async function deleteFile(fileId: string): Promise<any> {
         return response;
     } catch (error) {
         console.error("Error deleting file:", error);
+        throw error;
+    }
+}
+
+export async function createFolder(folderName: string, parentId: string): Promise<CreateFolderResponse> {
+    try {
+        const response = await httpClient.post('/create_folder/', {
+            folder_name: folderName,
+            pid: parentId
+        });
+
+        return response;
+    } catch (error) {
+        console.error("Error creating folder:", error);
         throw error;
     }
 }

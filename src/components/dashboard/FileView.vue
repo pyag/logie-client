@@ -4,7 +4,7 @@ import { onMounted, Ref, ref } from 'vue';
 import Button from "@/components/Button.vue";
 import UploadModal from "./UploadModal.vue";
 import CreateFolderModal from "./CreateFolderModal.vue";
-import { FileEntry, getFiles, uploadChunk, downloadFile, hideFile, unhideFile, deleteFile } from '@/api/file';
+import { FileEntry, getFiles, uploadChunk, downloadFile, hideFile, unhideFile, deleteFile, createFolder } from '@/api/file';
 import ListView from './fileViews/ListView.vue';
 import type { UploadItem } from '@/types/uploadTypes';
 import { getParentId } from '@/logic/fpath';
@@ -176,6 +176,7 @@ function closeCreateFolderModal() {
 async function createNewFolder(folderName: string) {
     // [TODO]: Call API to create folder
     console.log('Creating folder:', folderName);
+    await createFolder(folderName, getParentId());
 
     closeCreateFolderModal();
     await refreshFiles();
