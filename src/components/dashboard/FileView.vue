@@ -3,6 +3,7 @@ import { onMounted, Ref, ref } from 'vue';
 
 import Button from "@/components/Button.vue";
 import UploadModal from "./UploadModal.vue";
+import CreateFolderModal from "./CreateFolderModal.vue";
 import { FileEntry, getFiles, uploadChunk, downloadFile, hideFile, unhideFile, deleteFile } from '@/api/file';
 import ListView from './fileViews/ListView.vue';
 import type { UploadItem } from '@/types/uploadTypes';
@@ -16,6 +17,8 @@ const showUploadModal = ref(false);
 const uploadItems: Ref<UploadItem[]> = ref<UploadItem[]>([]);
 const isUploading: Ref<boolean> = ref(false);
 const fileInputRef: Ref<HTMLInputElement | null> = ref<HTMLInputElement | null>(null);
+
+const showCreateFolderModal = ref(false);
 
 async function refreshFiles() {
     try {
@@ -161,6 +164,23 @@ async function handleDeleteFile(fileId: string) {
         console.error('Error deleting file:', error);
     }
 }
+
+function openCreateFolderModal() {
+    showCreateFolderModal.value = true;
+}
+
+function closeCreateFolderModal() {
+    showCreateFolderModal.value = false;
+}
+
+async function createNewFolder(folderName: string) {
+    // [TODO]: Call API to create folder
+    console.log('Creating folder:', folderName);
+
+    closeCreateFolderModal();
+    await refreshFiles();
+}
+
 </script>
 
 <template>
@@ -177,10 +197,28 @@ async function handleDeleteFile(fileId: string) {
             </Button>
         </div>
 
+        <div class="mt-4">
+            <Button @click="openCreateFolderModal">
+                Create Folder
+            </Button>
+        </div>
+
         <input ref="fileInputRef" type="file" multiple class="hidden" @change="handleFileSelection" />
 
-        <UploadModal :showModal="showUploadModal" :uploadItems="uploadItems" :uploading="isUploading"
-            @close="closeUploadModal" @upload="uploadAll" @remove-file="removeUploadItem" @clear="clearAllUploads" />
+        <UploadModal
+            :showModal="showUploadModal"
+            :uploadItems="uploadItems"
+            :uploading="isUploading"
+            @close="closeUploadModal"
+            @upload="uploadAll"
+            @remove-file="removeUploadItem"
+            @clear="clearAllUploads" />
+
+        <CreateFolderModal
+            :showModal="showCreateFolderModal"
+            @close="closeCreateFolderModal"
+            @createFolder="createNewFolder" />
+
     </div>
 </template>
 
