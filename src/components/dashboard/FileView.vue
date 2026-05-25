@@ -7,7 +7,7 @@ import CreateFolderModal from "./CreateFolderModal.vue";
 import { FileEntry, getFiles, uploadChunk, downloadFile, hideFile, unhideFile, deleteFile, createFolder } from '@/api/file';
 import ListView from './fileViews/ListView.vue';
 import type { UploadItem } from '@/types/uploadTypes';
-import { getParentId } from '@/logic/fpath';
+import { addFolderToPath, getParentId, setParentId, removeLastParentId, removeLastFolderFromPath } from '@/logic/fpath';
 
 const files: Ref = ref({
     header: [] as string[],
@@ -175,10 +175,25 @@ function closeCreateFolderModal() {
 
 async function createNewFolder(folderName: string) {
     // [TODO]: Call API to create folder
-    console.log('Creating folder:', folderName);
     await createFolder(folderName, getParentId());
 
     closeCreateFolderModal();
+    await refreshFiles();
+}
+
+async function goToFolder(folderId: string, folderName: string) {
+    // Set parent ID to the selected folder and refresh files
+    setParentId(folderId);
+    addFolderToPath(folderName);
+
+    await refreshFiles();
+}
+
+async function goBackFolder() {
+    // Remove the last parent ID and folder name from the path, then refresh files
+    removeLastParentId();
+    removeLastFolderFromPath();
+
     await refreshFiles();
 }
 
@@ -190,7 +205,9 @@ async function createNewFolder(folderName: string) {
             @download="handleDownload"
             @hide="handleHideFile"
             @unhide="handleUnhideFile"
-            @delete="handleDeleteFile" />
+            @delete="handleDeleteFile"
+            @goToFolder="goToFolder"
+            @goBackFolder="goBackFolder" />
 
         <div class="mt-4">
             <Button @click="openFileDialog">

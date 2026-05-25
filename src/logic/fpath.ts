@@ -16,16 +16,41 @@ export function clearParentId() {
 export function setInitialFolderPath(rootId: string) {
     if (!localStorage.getItem('curPath')) {
         localStorage.setItem('curPath', JSON.stringify(['']));
-        localStorage.setItem('pid', rootId);
+        localStorage.setItem('pid', JSON.stringify([rootId]));
     }
 }
 
 export function getParentId(): string {
-    return localStorage.getItem('pid') || '';
+    const pid = localStorage.getItem('pid');
+    let pidArray: string[] = [];
+    if (pid) {
+        pidArray = JSON.parse(pid);
+    }
+
+    return pidArray.length > 0 ? pidArray[pidArray.length - 1] : '';
 }
 
-export function setParentId(pid: string) {
-    localStorage.setItem('pid', pid);
+export function setParentId(newPid: string) {
+    const pid = localStorage.getItem('pid');
+    let pidArray: string[] = [];
+    if (pid) {
+        pidArray = JSON.parse(pid);
+    }
+
+    pidArray.push(newPid);
+    localStorage.setItem('pid', JSON.stringify(pidArray));
+}
+
+export function removeLastParentId() {
+    const pid = localStorage.getItem('pid');
+    if (pid) {
+        let pidArray: string[] = JSON.parse(pid);
+        pidArray.pop();
+        localStorage.setItem('pid', JSON.stringify(pidArray));
+    } else {
+        // If there is no pid, we can just set it to an empty array
+        localStorage.setItem('pid', JSON.stringify([]));
+    }
 }
 
 export function addFolderToPath(folderName: string) {
@@ -48,4 +73,14 @@ export function removeLastFolderFromPath() {
         // If there is no path, we can just set it to an empty array
         localStorage.setItem('curPath', JSON.stringify([]));
     }
+}
+
+export function isRoot(): boolean {
+    const path = localStorage.getItem('curPath');
+    if (path) {
+        const pathArray: string[] = JSON.parse(path);
+        return pathArray.length === 0 || (pathArray.length === 1 && pathArray[0] === '');
+    }
+    // If there is no path, we can consider it as root
+    return true;
 }
