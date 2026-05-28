@@ -20,6 +20,32 @@ const fileInputRef: Ref<HTMLInputElement | null> = ref<HTMLInputElement | null>(
 
 const showCreateFolderModal = ref(false);
 
+const isDragging = ref(false);
+
+function onDragOver() {
+    isDragging.value = true;
+}
+
+function onDragLeave() {
+    isDragging.value = false;
+}
+
+function onDrop(event: DragEvent) {
+    isDragging.value = false;
+
+    if (event.dataTransfer?.files && event.dataTransfer.files.length > 0) {
+        // Maps files into the precise UploadItem format expected by UploadModal
+        uploadItems.value = Array.from(event.dataTransfer.files).map((file, index) => ({
+            id: `${Date.now()}-${index}`,
+            file,
+            progress: 0,
+            status: 'pending',
+        }));
+
+        showUploadModal.value = true;
+    }
+}
+
 async function refreshFiles() {
     try {
         const pid = getParentId();
@@ -201,43 +227,50 @@ async function goBackFolder() {
 
 <template>
     <div class="p-1">
-        <ListView :files="files"
-            @download="handleDownload"
-            @hide="handleHideFile"
-            @unhide="handleUnhideFile"
-            @delete="handleDeleteFile"
-            @goToFolder="goToFolder"
-            @goBackFolder="goBackFolder" />
+        <div class="relative transition-all duration-200 rounded-lg p-2"
+            :class="{ 'border-2 border-dashed border-blue-500 bg-blue-50/50 dark:bg-blue-950/20': isDragging }"
+            @dragover.prevent="onDragOver" @dragleave.prevent="onDragLeave" @drop.prevent="onDrop">
+            <div v-if="isDragging"
+                class="absolute inset-0 flex items-center justify-center bg-blue-50/40 dark:bg-blue-950/10 pointer-events-none z-10 rounded-lg">
+                <span
+                    class="text-blue-600 dark:text-blue-400 font-medium text-lg bg-white dark:bg-zinc-900 px-5 py-2 rounded-full shadow-md border border-blue-200">
+                    Drop files to upload here
+                </span>
+            </div>
 
-        <div class="mt-4">
-            <Button @click="openFileDialog">
-                Upload File
-            </Button>
+                <ListView
+                    :files="files"
+                    @download="handleDownload"
+                    @hide="handleHideFile"
+                    @unhide="handleUnhideFile"
+                    @delete="handleDeleteFile"
+                    @goToFolder="goToFolder"
+                    @goBackFolder="goBackFolder" />
+
+            </div>
+
+            <div class="mt-4">
+                <Button @click="openFileDialog">
+                    Upload File
+                </Button>
+            </div>
+
+            <div class="mt-4">
+                <Button @click="openCreateFolderModal">
+                    Create Folder
+                </Button>
+            </div>
+
+            <input ref="fileInputRef" type="file" multiple class="hidden" @change="handleFileSelection" />
+
+            <UploadModal :showModal="showUploadModal" :uploadItems="uploadItems" :uploading="isUploading"
+                @close="closeUploadModal" @upload="uploadAll" @remove-file="removeUploadItem"
+                @clear="clearAllUploads" />
+
+            <CreateFolderModal :showModal="showCreateFolderModal" @close="closeCreateFolderModal"
+                @createFolder="createNewFolder" />
+
         </div>
-
-        <div class="mt-4">
-            <Button @click="openCreateFolderModal">
-                Create Folder
-            </Button>
-        </div>
-
-        <input ref="fileInputRef" type="file" multiple class="hidden" @change="handleFileSelection" />
-
-        <UploadModal
-            :showModal="showUploadModal"
-            :uploadItems="uploadItems"
-            :uploading="isUploading"
-            @close="closeUploadModal"
-            @upload="uploadAll"
-            @remove-file="removeUploadItem"
-            @clear="clearAllUploads" />
-
-        <CreateFolderModal
-            :showModal="showCreateFolderModal"
-            @close="closeCreateFolderModal"
-            @createFolder="createNewFolder" />
-
-    </div>
 </template>
 
 <style scoped></style>

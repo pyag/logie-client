@@ -25,22 +25,22 @@ const listItems: { name: string; icon: any }[] = [
         name: 'home',
         icon: House,
     },
-    {
-        name: 'photos',
-        icon: Image,
-    },
-    {
-        name: 'videos',
-        icon: Clapperboard,
-    },
-    {
-        name: 'music',
-        icon: Music,
-    },
-    {
-        name: 'documents',
-        icon: FileText,
-    },
+    // {
+    //     name: 'photos',
+    //     icon: Image,
+    // },
+    // {
+    //     name: 'videos',
+    //     icon: Clapperboard,
+    // },
+    // {
+    //     name: 'music',
+    //     icon: Music,
+    // },
+    // {
+    //     name: 'documents',
+    //     icon: FileText,
+    // },
 ];
 
 const emit = defineEmits(['logout']);

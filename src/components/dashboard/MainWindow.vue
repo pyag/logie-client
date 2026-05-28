@@ -7,7 +7,7 @@ import ToolBar from './ToolBar.vue'
 <template>
     <div class="flex flex-col bg-white items-stretch h-full">
         <NavBar />
-        <ToolBar />
+        <!-- <ToolBar /> -->
         <FileView />
     </div>
 </template>
