@@ -226,6 +226,12 @@ async function goBackFolder() {
 </script>
 
 <template>
+    <div class="p-3 flex justify-center bg-gray-200 gap-x-2">
+        <Button @click="openFileDialog">Upload Files</Button>
+        <Button @click="openCreateFolderModal">Create New Folder</Button>
+    </div>
+
+
     <div class="p-1">
         <div class="relative transition-all duration-200 rounded-lg p-2"
             :class="{ 'border-2 border-dashed border-blue-500 bg-blue-50/50 dark:bg-blue-950/20': isDragging }"
@@ -247,18 +253,6 @@ async function goBackFolder() {
                     @goToFolder="goToFolder"
                     @goBackFolder="goBackFolder" />
 
-            </div>
-
-            <div class="mt-4">
-                <Button @click="openFileDialog">
-                    Upload File
-                </Button>
-            </div>
-
-            <div class="mt-4">
-                <Button @click="openCreateFolderModal">
-                    Create Folder
-                </Button>
             </div>
 
             <input ref="fileInputRef" type="file" multiple class="hidden" @change="handleFileSelection" />

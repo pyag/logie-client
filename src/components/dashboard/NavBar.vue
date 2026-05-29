@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useUserStore } from '../../stores/user';
 import Input from '../Input.vue';
-// import UserOptions from './UserOptions.vue'
+import UserOptions from './UserOptions.vue'
 
 const userStore = useUserStore();
 </script>
@@ -18,9 +18,9 @@ const userStore = useUserStore();
                 extra-input-classes="pl-5"
                 placeholder="Search other locker..." />
         </div>
-        <!-- <div class="ml-auto mr-3 p-3">
-            <UserOptions />
-        </div> -->
+        <div class="ml-auto mr-3 p-3">
+            <UserOptions @logout="$emit('logout')" />
+        </div>
     </div>
 </template>
 
