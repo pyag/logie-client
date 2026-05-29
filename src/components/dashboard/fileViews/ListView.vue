@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Clapperboard, File, FileText, Folder, Image } from 'lucide-vue-next';
+
 import { FileEntry } from '@/api/file';
 import Link from '@/components/Link.vue';
 import { isRoot } from '@/logic/fpath';
@@ -52,11 +54,16 @@ function formatModifiedDate(dateString: string): string {
                 <tr v-else v-for="file in files.data" :key="file.name" :class="[{ 'opacity-95': file.hidden }, 'even:bg-blue-50', 'hover:bg-violet-200', 'transition-colors', 'rounded!', 'border-none']">
                     <td class="py-1.5 px-2 overflow-hidden whitespace-nowrap text-ellipsis" :title="file.name">
                         <span v-if="file.type == 'folder'" :class="file.hidden ? 'text-gray-800' : ''">
-                            <Link @click="$emit('goToFolder', file.file_id, file.name)">
+                            <Link @click="$emit('goToFolder', file.file_id, file.name)" class="flex items-center gap-x-2 hover:bg-blue-100! px-0!">
+                                <Folder v-if="file.type === 'folder'" class="text-amber-400 fill-amber-200" :stroke-width="1.5" />
                                 {{ file.name }}
                             </Link>
                         </span>
-                        <span v-else class="text-gray-800">
+                        <span v-else class="text-gray-800 flex items-center gap-x-2">
+                            <Clapperboard v-if="file.type === 'video'" class="text-purple-400 fill-purple-200" :stroke-width="1.5" />
+                            <Image v-else-if="file.type === 'image'" class="text-indigo-600 fill-indigo-600/10" :stroke-width="1.5" />
+                            <FileText v-else-if="file.type === 'pdf'" class="text-rose-600 fill-rose-500/10" :stroke-width="1.5" />
+                            <File v-else :stroke-width="1.5" />
                             {{ file.name }}
                         </span>
                         <span v-if="file.hidden" class="ml-2 inline-flex items-center rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-orange-600">Hidden</span>
