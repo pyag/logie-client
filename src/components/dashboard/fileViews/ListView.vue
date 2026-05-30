@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Clapperboard, File, FileText, Folder, Image } from 'lucide-vue-next';
+import { CirclePlay, File, FileText, Folder, Image } from 'lucide-vue-next';
 
 import { FileEntry } from '@/api/file';
 import Link from '@/components/Link.vue';
@@ -60,21 +60,25 @@ function formatModifiedDate(dateString: string): string {
                             </Link>
                         </span>
                         <span v-else class="text-gray-800 flex items-center gap-x-2">
-                            <Clapperboard v-if="file.type === 'video'" class="text-purple-400 fill-purple-200" :stroke-width="1.5" />
+                            <CirclePlay v-if="file.type === 'video'" class="text-[#EA4335] fill-[#EA4335]/15" :stroke-width="1.5" />
                             <Image v-else-if="file.type === 'image'" class="text-indigo-600 fill-indigo-600/10" :stroke-width="1.5" />
                             <FileText v-else-if="file.type === 'pdf'" class="text-rose-600 fill-rose-500/10" :stroke-width="1.5" />
                             <File v-else :stroke-width="1.5" />
                             {{ file.name }}
+                            <span v-if="file.hidden" class="ml-2 inline-flex items-center rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-orange-600">Hidden</span>
                         </span>
-                        <span v-if="file.hidden" class="ml-2 inline-flex items-center rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-orange-600">Hidden</span>
                     </td>
                     <td class="py-1.5 px-2 text-base">{{ file.type }}</td>
-                    <td class="py-1.5 px-2 text-base">{{ file.size }}</td>
+                    <td v-if="file.type != 'folder'" class="py-1.5 px-2 text-base">{{ file.size }}</td>
+                    <td v-else><!-- Folders does not have a accumulated size yet --></td>
                     <td class="py-1.5 px-2 text-base">{{ formatModifiedDate(file.modified) }}</td>
-                    <td class="py-1.5 px-2 text-base flex">
+                    <td v-if="file.type != 'folder'" class="py-1.5 px-2 text-base flex">
                         <Link class="text-blue-600" @click="$emit('download', file.file_id, file.name)">Download</Link>
                         <Link class="ml-4 text-green-600" @click="file.hidden ? $emit('unhide', file.file_id) : $emit('hide', file.file_id)">{{ file.hidden ? 'Unhide' : 'Hide' }}</Link>
                         <Link class="ml-4 text-red-600" @click="$emit('delete', file.file_id)">Delete</Link>
+                    </td>
+                    <td v-else class="py-1.5 px-2 text-base flex">
+                        <!-- Empty since folder does not have actions at the moment -->
                     </td>
                 </tr>
             </tbody>
