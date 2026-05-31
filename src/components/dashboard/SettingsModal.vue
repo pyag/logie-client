@@ -5,8 +5,9 @@ import Label from "@/components/Label.vue";
 import Password from "@/components/Password.vue";
 import Button from "@/components/Button.vue";
 import { isPasswordValid } from "@/logic/pwd";
+import { clearFolderPath, clearParentId } from '@/logic/fpath';
 
-import { changePassword } from "@/api/user";
+import { changePassword, deleteLocker } from "@/api/user";
 
 const emit = defineEmits(['close']);
 
@@ -59,14 +60,34 @@ async function handleChangePassword() {
     }
 }
 
-function handleDeleteLocker() {
+async function handleDeleteLocker() {
     if (!deleteForm.confirmPassword) {
-        alert("Please enter your password to confirm deletion.");
+        deleteErrorMessage.value = "Please enter your password to confirm deletion.";
         return;
     }
+
     const doubleCheck = confirm("Are you absolutely sure? This cannot be undone.");
-    if (doubleCheck) {
-        console.log('Deleting locker...', deleteForm.confirmPassword);
+    if (!doubleCheck) {
+        return;
+    }
+
+    try {
+        const response = await deleteLocker(deleteForm.confirmPassword);
+        if (response.success == false) {
+            deleteErrorMessage.value = response.message || "Failed to delete locker. Please check your password and try again.";
+            return;
+        }
+
+        deleteErrorMessage.value = '';
+        // Clear the local storage which holds pid.
+        clearFolderPath(); // Clear folder path on locker deletion
+        clearParentId(); // Clear parent ID on locker deletion
+
+        alert("Locker deleted successfully!");
+        // Refresh the page as the session is cleared
+        window.location.reload();
+    } catch (err) {
+        deleteErrorMessage.value = "Failed to delete locker. Please check your password and try again.";
     }
 }
 </script>
