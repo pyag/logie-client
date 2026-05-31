@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import { X } from 'lucide-vue-next';
 
 import BaseButton from './BaseButton.vue';
+import Label from './Label.vue';
 
 interface Props {
     modalTitle?: string;
@@ -29,11 +30,11 @@ function onAfterLeave() {
     <Transition appear name="modal" @after-leave="onAfterLeave">
         <div v-show="isVisible" @click="closeModal" class="modal-overlay flex justify-center items-center">
             <div class="modal-content rounded-lg overflow-hidden" @click.stop>
-                <div class="modal-heading relative flex items-center p-0.5">
+                <div class="modal-heading relative flex items-center p-0.5 py-1">
                     <div class="modal-title text-sm absolute left-1/2 transform -translate-x-1/2">
-                        {{ modalTitle }}
+                        <Label>{{ modalTitle }}</Label>
                     </div>
-                    <div class="modal-controls ml-auto mr-0.5 w-4 h-4 bg-red-700 rounded-full flex items-center justify-center">
+                    <div class="modal-controls ml-auto mr-1 w-4 h-4 bg-red-700 rounded-full flex items-center justify-center">
                         <BaseButton @click="closeModal">
                             <X class="h-3 w-3 text-white" stroke-width="4" />
                         </BaseButton>
