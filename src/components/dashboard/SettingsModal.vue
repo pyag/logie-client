@@ -2,11 +2,13 @@
 import { ref, reactive } from 'vue';
 import Modal from "@/components/Modal.vue";
 import Label from "@/components/Label.vue";
-import Input from "@/components/Input.vue";
 import Password from "@/components/Password.vue";
 import Button from "@/components/Button.vue";
+import { isPasswordValid } from "@/logic/pwd";
 
-defineEmits(['close']);
+import { changePassword } from "@/api/user";
+
+const emit = defineEmits(['close']);
 
 const errorMessage = ref('');
 const deleteErrorMessage = ref('');
@@ -26,12 +28,35 @@ const deleteForm = reactive({
 });
 
 // Submit Handlers
-function handleChangePassword() {
+async function handleChangePassword() {
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
         errorMessage.value = "New passwords do not match!";
         return;
     }
-    console.log('Changing password...', { ...passwordForm });
+
+    if (!isPasswordValid(passwordForm.newPassword)) {
+        errorMessage.value = "New password does not meet strength requirements (8+ chars, uppercase, lowercase, number and symbol).";
+        return;
+    }
+
+    if (passwordForm.oldPassword === passwordForm.newPassword) {
+        errorMessage.value = "New password cannot be the same as the old password.";
+        return;
+    }
+
+    try {
+        const response = await changePassword(passwordForm.oldPassword, passwordForm.newPassword);
+        if (response.success == false) {
+            errorMessage.value = response.message || "Failed to change password. Please check your old password and try again.";
+            return;
+        }
+
+        errorMessage.value = '';
+        alert("Password changed successfully!");
+        emit('close');
+    } catch (err) {
+        errorMessage.value = "Failed to change password. Please check your old password and try again.";
+    }
 }
 
 function handleDeleteLocker() {
@@ -86,7 +111,7 @@ function handleDeleteLocker() {
                                 <Password 
                                     id="old-password"
                                     v-model="passwordForm.oldPassword"
-                                    placeholder="••••••••" 
+                                    placeholder="Enter your current password" 
                                     required
                                 />
                             </div>
@@ -96,7 +121,7 @@ function handleDeleteLocker() {
                                 <Password 
                                     id="new-password"
                                     v-model="passwordForm.newPassword"
-                                    placeholder="••••••••" 
+                                    placeholder="Enter your new password" 
                                     required
                                 />
                             </div>
@@ -106,7 +131,7 @@ function handleDeleteLocker() {
                                 <Password 
                                     id="confirm-password"
                                     v-model="passwordForm.confirmPassword"
-                                    placeholder="••••••••" 
+                                    placeholder="Confirm your new password" 
                                     required
                                 />
                             </div>

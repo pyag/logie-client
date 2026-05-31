@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Ref, ref } from 'vue';
 import { CreateLockerResponse, saveLocker } from '@/api/user';
-import { isStrongPassword } from 'validator';
+import { isPasswordValid } from '@/logic/pwd';
 
 import { Ellipsis } from "lucide-vue-next";
 
@@ -27,13 +27,7 @@ const validatePassword = (password: string, confirmPassword: string): { valid: b
         };
     }
 
-    const isValid = isStrongPassword(password, {
-        minLength: 8,
-        minLowercase: 1,
-        minUppercase: 1,
-        minNumbers: 1,
-        minSymbols: 1,
-    });
+    const isValid = isPasswordValid(password);
 
     if (!isValid) {
         return {
