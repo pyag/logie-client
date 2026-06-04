@@ -63,6 +63,38 @@ export type LoginResponse = {
     success: boolean;
 };
 
+export type LockerSearchItem = {
+    uid: string;
+    name: string;
+};
+
+export type SearchLockerResponse = {
+    message: string;
+    status_code: number;
+    success: boolean;
+    data: {
+        lockers: LockerSearchItem[];
+    };
+};
+
+export async function searchLockers(name: string): Promise<SearchLockerResponse> {
+    try {
+        const response = await httpClient.get(`/search/?name=${encodeURIComponent(name)}`);
+        return response as SearchLockerResponse;
+    } catch (error: any) {
+        console.error('Error searching lockers:', error);
+        if (error.status && error.data) {
+            return {
+                success: false,
+                message: error.data.message || 'Search failed. Please try again.',
+                status_code: error.status,
+                data: { lockers: [] },
+            };
+        }
+        throw error;
+    }
+}
+
 export async function login(identifier: string, password: string): Promise<LoginResponse> {
     try {
         const response: LoginResponse = await httpClient.post('/login/', {
