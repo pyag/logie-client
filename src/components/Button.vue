@@ -10,12 +10,15 @@ const props = withDefaults(defineProps<Props>(), {
         cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed",
     disabled: false,
 });
+
+const emit = defineEmits(['click']);
 </script>
 
 <template>
 <button
     :class="`${btnClass} btnStyle ${extraClasses || ''}`"
-    :disabled="disabled">
+    :disabled="disabled"
+    @click="emit('click')">
     <slot></slot>
 </button>
 </template>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from 'vue';
+
 interface Props {
     inputClazz?: string;
     divClazz?: string;
@@ -30,11 +32,13 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits(['update:modelValue']);
+const attrs = useAttrs();
 </script>
 
 <template>
 <div :class="`${divClazz} ${extraDivClasses || ''}`">
     <input
+        v-bind="attrs"
         :class="`${inputClazz} ${extraInputClasses || ''}`"
         :disabled="disabled"
         :placeholder="placeholder"

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { Search } from "lucide-vue-next";
 
 import Button from "../Button.vue";
@@ -8,6 +9,8 @@ import FrontPageModal from "./FrontPageModal.vue";
 
 const emit = defineEmits(['authenticated']);
 const modalRef = ref();  // Template ref to access the modal's exposed methods
+const router = useRouter();
+const searchQuery = ref('');
 
 const openSignUpModel = () => {
     modalRef.value.openSignUp();
@@ -17,6 +20,13 @@ const openLogInModel = () => {
     modalRef.value.openLogin();
 };
 
+const submitSearch = () => {
+    const query = searchQuery.value.trim();
+    if (!query) {
+        return;
+    }
+    router.push({ name: 'search', query: { name: query } });
+};
 </script>
 
 <template>
@@ -31,9 +41,15 @@ const openLogInModel = () => {
                 <!-- <Button>Create temporary locker</Button> -->
                 <Button @click="openLogInModel" class="w-50 font-normal">Log In</Button>
             </div>
-            <Input :placeholder="`Search lockers`" :extra-div-classes="`!rounded-full w-3xl max-w-3xl focus-within:ring-gray-400`"
+            <Input
+                v-model:modelValue="searchQuery"
+                @keydown.enter="submitSearch"
+                :placeholder="`Search lockers`"
+                :extra-div-classes="`!rounded-full w-3xl max-w-3xl focus-within:ring-gray-400`"
                 :extra-input-classes="`!py-2 !px-4`">
-                <Button extra-classes="!border-none !text-black !bg-gray-200 hover:!bg-gray-300 !rounded-full !bg-none">
+                <Button
+                    @click="submitSearch"
+                    extra-classes="!border-none !text-black !bg-gray-200 hover:!bg-gray-300 !rounded-full !bg-none">
                     <Search class="h-6 w-6 text-gray-500" />
                 </Button>
             </Input>
