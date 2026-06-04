@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { Search } from 'lucide-vue-next';
 import Input from '../components/Input.vue';
 import Button from '../components/Button.vue';
+import SearchHeader from '../components/SearchHeader.vue';
 import { searchLockers, LockerSearchItem } from '../api/user';
 
 const props = defineProps<{ searchText: string }>();
@@ -78,6 +79,7 @@ watch(
 </script>
 
 <template>
+    <SearchHeader />
     <div class="min-h-[80vh] px-6 py-8">
         <div class="max-w-5xl mx-auto space-y-6">
             <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
