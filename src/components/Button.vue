@@ -3,12 +3,14 @@ interface Props {
     btnClass?: string;
     extraClasses?: string;
     disabled?: boolean;
+    type?: 'button' | 'submit' | 'reset';
 }
 
 const props = withDefaults(defineProps<Props>(), {
     btnClass: "text-white py-2 px-3 rounded-xl \
         cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed",
     disabled: false,
+    type: 'submit',
 });
 
 const emit = defineEmits(['click']);
@@ -16,6 +18,7 @@ const emit = defineEmits(['click']);
 
 <template>
 <button
+    :type="type"
     :class="`${btnClass} btnStyle ${extraClasses || ''}`"
     :disabled="disabled"
     @click="emit('click')">

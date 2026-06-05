@@ -45,7 +45,7 @@ function toggleVisibility() {
     :required="required"
     :modelValue="modelValue"
     @update:modelValue="(value) => emit('update:modelValue', value)">
-    <Button @click="toggleVisibility"
+    <Button type="button" @click="toggleVisibility"
         extra-classes="!border-none !text-gray-300 hover:!bg-gray-300 !rounded-lg !bg-none !py-0">
         <template v-if="visible">
             <EyeClosed class="h-5.5 w-5 text-gray-500" stroke-width="1.3"/>
