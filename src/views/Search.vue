@@ -2,10 +2,11 @@
 import { ref, watch, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { Search } from 'lucide-vue-next';
-import Input from '../components/Input.vue';
-import Button from '../components/Button.vue';
-import SearchHeader from '../components/SearchHeader.vue';
-import { searchLockers, LockerSearchItem } from '../api/user';
+import Input from '@/components/Input.vue';
+import Button from '@/components/Button.vue';
+import Link from '@/components/Link.vue';
+import SearchHeader from '@/components/search/SearchHeader.vue';
+import { searchLockers, LockerSearchItem } from '@/api/user';
 
 const props = defineProps<{ searchText: string }>();
 const router = useRouter();
@@ -53,6 +54,19 @@ const performSearch = async (text: string) => {
 
 const handleSubmit = () => {
     router.push({ name: 'search', query: { name: query.value } });
+};
+
+const openLockerFiles = (lockerName: string, lockerId: string, rootId: string) => {
+    if (!lockerId || !rootId) {
+        console.error('Missing locker ID or root ID');
+        return;
+    }
+    
+    router.push({
+        name: 'publicLocker',
+        params: { lockername: lockerName },
+        query: { uid: lockerId, pid: rootId },
+    });
 };
 
 onMounted(() => {
@@ -120,8 +134,13 @@ watch(
                         <li
                             v-for="locker in results"
                             :key="locker.uid"
-                            class="cursor-pointer rounded-2xl border border-blue-100 bg-blue-50 p-4 transition hover:border-blue-200 hover:bg-blue-100">
-                            <p class="font-medium text-lg text-gray-900">{{ locker.name }}</p>
+                            class="rounded-2xl border border-blue-100 bg-blue-50 transition hover:border-blue-200 hover:bg-blue-100">
+                            <Link
+                                @click.prevent="openLockerFiles(locker.name, locker.uid, locker.root_id)"
+                                clazz="block w-full h-full text-inherit no-underline"
+                                extraClasses="flex items-center gap-x-3 p-4">
+                                <p class="font-medium text-lg text-gray-900">{{ locker.name }}</p>
+                            </Link>
                         </li>
                     </ul>
                 </div>

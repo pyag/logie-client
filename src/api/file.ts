@@ -92,3 +92,13 @@ export async function createFolder(folderName: string, parentId: string): Promis
         throw error;
     }
 }
+
+export async function getPublicLockerFiles(lockerUid: string, pid: string): Promise<FilesResponse> {
+    try {
+        const fileData = await httpClient.get(`/public/locker/${lockerUid}/files/?pid=${pid}`);
+        return fileData as FilesResponse;
+    } catch (error) {
+        console.error("Error fetching public locker files:", error);
+        throw error;
+    }
+}

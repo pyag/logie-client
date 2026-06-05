@@ -14,6 +14,16 @@ const routes = [
     component: () => import('../views/Search.vue'),
     props: (route) => ({ searchText: route.query.name ?? '' }),
   },
+  {
+    path: '/locker/:lockername',
+    name: 'publicLocker',
+    component: () => import('../components/search/PublicLockerView.vue'),
+    props: (route) => ({
+      lockername: route.params.lockername,
+      uid: route.query.uid,
+      pid: route.query.pid,
+    }),
+  },
 ];
 
 const router = createRouter({

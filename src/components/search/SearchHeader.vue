@@ -2,8 +2,8 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
-import Button from './Button.vue';
-import FrontPageModal from './frontpage/FrontPageModal.vue';
+import Button from '@/components/Button.vue';
+import FrontPageModal from '@/components/frontpage/FrontPageModal.vue';
 
 const router = useRouter();
 const userStore = useUserStore();
