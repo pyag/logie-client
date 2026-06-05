@@ -66,6 +66,7 @@ export type LoginResponse = {
 export type LockerSearchItem = {
     uid: string;
     name: string;
+    root_id: string;
 };
 
 export type SearchLockerResponse = {
