@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { onMounted, ref, Ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import Input from '@/components/Input.vue';
+import Button from '@/components/Button.vue';
+import { Search } from 'lucide-vue-next';
 
 import SearchHeader from "@/components/search/SearchHeader.vue";
 import PublicFileList from "./PublicFileList.vue";
@@ -22,6 +25,11 @@ const pathNameStack: Ref<string[]> = ref(['']);
 const fileCache: Ref<Record<string, FileEntry[]>> = ref({});
 const loading: Ref<boolean> = ref(false);
 const errorMessage: Ref<string> = ref('');
+const query = ref('');
+
+const handleSubmit = () => {
+    router.push({ name: 'search', query: { name: query.value } });
+};
 
 /**
  * Can we go back? Only if pidStack has more than 1 element
@@ -158,6 +166,25 @@ onMounted(async () => {
         
         <div class="flex-1 px-6 py-8">
             <div class="max-w-7xl mx-auto space-y-6">
+                <!-- Header with locker info -->
+                <div class="flex justify-center">
+                    <div class="w-full md:w-3/4 max-w-3xl">
+                        <Input
+                            v-model:modelValue="query"
+                            @keydown.enter="handleSubmit"
+                            :extra-div-classes="`!rounded-full w-full focus-within:ring-gray-400`"
+                            :extra-input-classes="`!py-2 !px-4`"
+                            placeholder="Search lockers by name...">
+                            <Button
+                                type="button"
+                                @click="handleSubmit"
+                                extra-classes="!border-none !text-black !bg-gray-200 hover:!bg-gray-300 !rounded-full !bg-none">
+                                <Search class="h-5 w-5" />
+                            </Button>
+                        </Input>
+                    </div>
+                </div>
+
                 <!-- Header with locker info -->
                 <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div>
