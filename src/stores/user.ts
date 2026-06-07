@@ -25,6 +25,9 @@ export const useUserStore = defineStore('user', () => {
         currentUser.value = null;
         clearFolderPath(); // Clear folder path on logout
         clearParentId(); // Clear parent ID on logout
+        try {
+            localStorage.removeItem('auth_token');
+        } catch (e) {}
     };
 
     const performLogout = async () => {

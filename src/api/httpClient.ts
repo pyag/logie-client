@@ -5,6 +5,17 @@ const requestOptions = {
     credentials: 'include' as const,
 };
 
+const getAuthToken = () => typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
+
+const attachAuthHeader = (headers: Record<string, string> | undefined) => {
+    const token = getAuthToken();
+    if (!token) return headers;
+    return {
+        ...(headers || {}),
+        Authorization: `Bearer ${token}`,
+    };
+};
+
 const buildTimeoutError = () => {
     const error: any = new Error('Request timed out. Please try again.');
     error.status = 504;
@@ -30,6 +41,7 @@ export default {
         try {
             const response = await fetch(`${SERVER_URL}${endpoint}`, {
                 ...requestOptions,
+                headers: attachAuthHeader(undefined),
                 signal: AbortSignal.timeout(REQUEST_TIMEOUT),
             });
             const data = await response.json();
@@ -49,6 +61,7 @@ export default {
         try {
             const response = await fetch(`${SERVER_URL}${endpoint}`, {
                 ...requestOptions,
+                headers: attachAuthHeader(undefined),
                 signal: AbortSignal.timeout(REQUEST_TIMEOUT),
             });
 
@@ -76,7 +89,7 @@ export default {
 
             const response = await fetch(`${SERVER_URL}${endpoint}`, {
                 method: 'POST',
-                headers,
+                headers: attachAuthHeader(headers),
                 body: formData || JSON.stringify(data),
                 ...requestOptions,
                 signal: AbortSignal.timeout(REQUEST_TIMEOUT),

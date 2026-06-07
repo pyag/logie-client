@@ -10,6 +10,11 @@ export async function saveLocker(lname: string, password: string, cnfrm_password
             email
         });
 
+        // store token if provided
+        if (lockerData?.data?.token) {
+            localStorage.setItem('auth_token', lockerData.data.token);
+        }
+
         return lockerData as CreateLockerResponse;
     } catch (error: any) {
         console.error("Error creating locker:", error);
@@ -102,6 +107,11 @@ export async function login(identifier: string, password: string): Promise<Login
             identifier,
             password,
         });
+
+        // store token if provided
+        if ((response as any)?.data?.token) {
+            localStorage.setItem('auth_token', (response as any).data.token);
+        }
 
         return response as LoginResponse;
     } catch (error: any) {
