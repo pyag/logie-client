@@ -1,8 +1,28 @@
 const SERVER_URL = import.meta.env.VITE_SERVER_URL;
-const REQUEST_TIMEOUT = 1500; // 1.5 seconds
+const REQUEST_TIMEOUT = 10000; // 10 seconds
 
 const requestOptions = {
     credentials: 'include' as const,
+};
+
+const buildTimeoutError = () => {
+    const error: any = new Error('Request timed out. Please try again.');
+    error.status = 504;
+    error.data = { message: 'Request timed out. Please try again.' };
+    return error;
+};
+
+const handleFetchError = (error: any) => {
+    if (error?.name === 'AbortError') {
+        throw buildTimeoutError();
+    }
+    if (error.status) {
+        throw error;
+    }
+    const serverError: any = new Error('Internal Server Error');
+    serverError.status = 500;
+    serverError.data = { message: 'Unable to reach backend server' };
+    throw serverError;
 };
 
 export default {
@@ -21,13 +41,7 @@ export default {
             }
             return data;
         } catch (error: any) {
-            if (error.status) {
-                throw error;
-            }
-            const serverError: any = new Error('Internal Server Error');
-            serverError.status = 500;
-            serverError.data = { message: 'Unable to reach backend server' };
-            throw serverError;
+            handleFetchError(error);
         }
     },
 
@@ -48,13 +62,7 @@ export default {
 
             return await response.blob();
         } catch (error: any) {
-            if (error.status) {
-                throw error;
-            }
-            const serverError: any = new Error('Internal Server Error');
-            serverError.status = 500;
-            serverError.data = { message: 'Unable to reach backend server' };
-            throw serverError;
+            handleFetchError(error);
         }
     },
 
@@ -82,13 +90,7 @@ export default {
             }
             return responseData;
         } catch (error: any) {
-            if (error.status) {
-                throw error;
-            }
-            const serverError: any = new Error('Internal Server Error');
-            serverError.status = 500;
-            serverError.data = { message: 'Unable to reach backend server' };
-            throw serverError;
+            handleFetchError(error);
         }
     },
 };
