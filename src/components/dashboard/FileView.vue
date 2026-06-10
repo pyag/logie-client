@@ -146,6 +146,12 @@ async function uploadAll() {
     const uploads = uploadItems.value.map(item => uploadSingleFile(item));
     await Promise.allSettled(uploads);
     isUploading.value = false;
+
+    // Close the modal after all uploads are done if there are no failed uploads
+    const hasErrors = uploadItems.value.some(item => item.status === 'error');
+    if (!hasErrors) {
+        showUploadModal.value = false;
+    }
 }
 
 async function handleDownload(fileId: string, filename: string) {
