@@ -64,7 +64,7 @@ function formatModifiedDate(dateString: string): string {
                             <Image v-else-if="file.type === 'image'" class="text-indigo-600 fill-indigo-600/10" :stroke-width="1.5" />
                             <FileText v-else-if="file.type === 'pdf'" class="text-rose-600 fill-rose-500/10" :stroke-width="1.5" />
                             <File v-else :stroke-width="1.5" />
-                            {{ file.name }}
+                            <Link class="hover:underline" extra-classes="text-gray-800! font-normal!" @click="$emit('view', file.file_id)">{{ file.name }}</Link>
                             <span v-if="file.hidden" class="ml-2 inline-flex items-center rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-orange-600">Hidden</span>
                         </span>
                     </td>
@@ -73,6 +73,7 @@ function formatModifiedDate(dateString: string): string {
                     <td v-else><!-- Folders does not have a accumulated size yet --></td>
                     <td class="py-1.5 px-2 text-base">{{ formatModifiedDate(file.modified) }}</td>
                     <td v-if="file.type != 'folder'" class="py-1.5 px-2 text-base flex">
+                        <Link class="text-gray-600" @click="$emit('view', file.file_id)">View</Link>
                         <Link class="text-blue-600" @click="$emit('download', file.file_id, file.name)">Download</Link>
                         <Link class="ml-4 text-green-600" @click="file.hidden ? $emit('unhide', file.file_id) : $emit('hide', file.file_id)">{{ file.hidden ? 'Unhide' : 'Hide' }}</Link>
                         <Link class="ml-4 text-red-600" @click="$emit('delete', file.file_id)">Delete</Link>

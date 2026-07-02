@@ -49,6 +49,16 @@ export async function downloadFile(fileId: string): Promise<Blob> {
     }
 }
 
+export async function viewFile(fileId: string): Promise<Blob> {
+    try {
+        const blob = await httpClient.getBlob(`/view/${fileId}`);
+        return blob;
+    } catch (error) {
+        console.error("Error viewing file:", error);
+        throw error;
+    }
+}
+
 export async function hideFile(fileId: string): Promise<any> {
     try {
         const response = await httpClient.post(`/hide/${fileId}`, null);

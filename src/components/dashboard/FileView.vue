@@ -4,7 +4,7 @@ import { onMounted, Ref, ref } from 'vue';
 import Button from "@/components/Button.vue";
 import UploadModal from "./UploadModal.vue";
 import CreateFolderModal from "./CreateFolderModal.vue";
-import { FileEntry, getFiles, uploadChunk, downloadFile, hideFile, unhideFile, deleteFile, createFolder } from '@/api/file';
+import { FileEntry, getFiles, uploadChunk, viewFile, downloadFile, hideFile, unhideFile, deleteFile, createFolder } from '@/api/file';
 import ListView from './fileViews/ListView.vue';
 import type { UploadItem } from '@/types/uploadTypes';
 import { addFolderToPath, getParentId, setParentId, removeLastParentId, removeLastFolderFromPath } from '@/logic/fpath';
@@ -170,6 +170,17 @@ async function handleDownload(fileId: string, filename: string) {
     }
 }
 
+async function handleViewFile(fileId: string) {
+    try {
+        const blob = await viewFile(fileId);
+        const viewUrl = URL.createObjectURL(blob);
+        window.open(viewUrl, '_blank');
+        setTimeout(() => URL.revokeObjectURL(viewUrl), 60000);
+    } catch (error) {
+        console.error('Error viewing file:', error);
+    }
+}
+
 async function handleHideFile(fileId: string) {
     try {
         await hideFile(fileId);
@@ -252,6 +263,7 @@ async function goBackFolder() {
 
                 <ListView
                     :files="files"
+                    @view="handleViewFile"
                     @download="handleDownload"
                     @hide="handleHideFile"
                     @unhide="handleUnhideFile"
