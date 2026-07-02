@@ -50,7 +50,7 @@ function formatModifiedDate(dateString: string): string {
                 </tr>
 
                 <tr v-if="!files.data || files.data.length === 0">
-                    <td class="py-4 px-2 italic text-center text-gray-600 bg-teal-100" colspan="4">No files found.</td>
+                    <td class="py-4 px-2 italic text-center text-gray-600 bg-teal-100" colspan="5">No files found.</td>
                 </tr>
                 <tr v-else v-for="file in files.data" :key="file.name" :class="['even:bg-blue-50', 'hover:bg-violet-200', 'transition-colors', 'rounded!', 'border-none']">
                     <td class="py-1.5 px-2 overflow-hidden whitespace-nowrap text-ellipsis" :title="file.name">
@@ -65,14 +65,15 @@ function formatModifiedDate(dateString: string): string {
                             <Image v-else-if="file.type === 'image'" class="text-indigo-600 fill-indigo-600/10" :stroke-width="1.5" />
                             <FileText v-else-if="file.type === 'pdf'" class="text-rose-600 fill-rose-500/10" :stroke-width="1.5" />
                             <File v-else :stroke-width="1.5" />
-                            {{ file.name }}
+                            <Link class="hover:underline" extra-classes="text-gray-800! font-normal!" @click="$emit('view', file.file_id)">{{ file.name }}</Link>
                         </span>
                     </td>
                     <td class="py-1.5 px-2 text-base">{{ file.type }}</td>
                     <td v-if="file.type != 'folder'" class="py-1.5 px-2 text-base">{{ file.size }}</td>
                     <td v-else><!-- Folders do not have accumulated size --></td>
                     <td class="py-1.5 px-2 text-base">{{ formatModifiedDate(file.modified) }}</td>
-                    <td v-if="file.type != 'folder'" class="py-1.5 px-2 text-base flex">
+                    <td v-if="file.type != 'folder'" class="py-1.5 px-2 text-base flex gap-x-4">
+                        <Link class="text-gray-800" @click="$emit('view', file.file_id)">View</Link>
                         <Link class="text-blue-600" @click="$emit('download', file.file_id, file.name)">Download</Link>
                     </td>
                     <td v-else class="py-1.5 px-2 text-base flex">

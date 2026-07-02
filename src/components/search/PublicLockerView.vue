@@ -7,7 +7,7 @@ import { Search } from 'lucide-vue-next';
 
 import SearchHeader from "@/components/search/SearchHeader.vue";
 import PublicFileList from "./PublicFileList.vue";
-import { FileEntry, getPublicLockerFiles, downloadFile } from '@/api/file';
+import { FileEntry, getPublicLockerFiles, downloadFile, viewFile } from '@/api/file';
 
 const route = useRoute();
 const router = useRouter();
@@ -137,6 +137,18 @@ async function downloadFileAction(fileId: string, fileName: string) {
     }
 }
 
+async function viewFileAction(fileId: string) {
+    try {
+        const blob = await viewFile(fileId);
+        const viewUrl = window.URL.createObjectURL(blob);
+        window.open(viewUrl, '_blank');
+        setTimeout(() => URL.revokeObjectURL(viewUrl), 60000);
+    } catch (error) {
+        console.error('Error viewing file:', error);
+        errorMessage.value = 'Failed to view file';
+    }
+}
+
 /**
  * Initialize: Load root folder on mount
  * Edge case safe: Validates route params and initializes pidStack with root_id
@@ -209,6 +221,7 @@ onMounted(async () => {
                     <PublicFileList
                         :files="files"
                         :canGoBack="canGoBack"
+                        @view="viewFileAction"
                         @download="downloadFileAction"
                         @goToFolder="navigateToFolder"
                         @back="goBack" />
