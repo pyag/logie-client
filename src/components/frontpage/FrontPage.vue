@@ -34,8 +34,8 @@ const submitSearch = () => {
         <div class="flex w-full max-w-3xl flex-col items-center justify-center sm:-mt-15">
             <div class="mb-7 w-full">
                 <div class="mx-auto mt-7 w-fit max-w-full">
-                    <div class="gradient-heading text-center leading-[1.15] text-[11em]">logie</div>
-                    <div class="-mt-7 flex justify-end text-base italic sm:mr-2.5 sm:text-xl">Online lockers</div>
+                    <div class="gradient-heading text-center leading-[1.15] text-[8em] md:text-[11em]">logie</div>
+                    <div class="-mt-4 md:-mt-7 flex justify-end md:text-xl italic text-base sm:m">Online lockers</div>
                 </div>
             </div>
             <div class="lg:ml-8 md:ml-10 mb-6 flex w-full max-w-md flex-col gap-3 sm:flex-row sm:gap-x-4">
