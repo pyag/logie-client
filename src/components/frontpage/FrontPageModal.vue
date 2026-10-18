@@ -39,7 +39,7 @@ defineExpose({
 <template>
     <Teleport to="body">
         <Modal v-if="isOpenModal === true" @close="closeModal">
-            <div v-if="currentModel === 'signup'" class="w-[19vw] h-[55vh]">
+            <div v-if="currentModel === 'signup'" class="w-[calc(100vw-2rem)] max-w-88 h-120 overflow-y-auto">
                 <Signup @authenticated="handleAuthenticated" />
                 <div class="flex flex-col items-end mt-5 mb-5 text-sm">
                     <!-- <Link>Create temporary locker</Link> -->
@@ -49,7 +49,7 @@ defineExpose({
                 </div>
                 <!-- <BrandingSection section-placeholder="or sign up with" /> -->
             </div>
-            <div v-else-if="currentModel === 'login'" class="w-[19vw] h-[49vh]">
+            <div v-else-if="currentModel === 'login'" class="w-[calc(100vw-2rem)] max-w-88 h-120 overflow-y-auto">
                 <Login @authenticated="handleAuthenticated" />
                 <div class="flex flex-col items-end mt-5 mb-5 text-sm">
                     <!-- <Link>Forgot password</Link> -->
