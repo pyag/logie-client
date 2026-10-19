@@ -6,6 +6,7 @@ import UploadModal from "./UploadModal.vue";
 import CreateFolderModal from "./CreateFolderModal.vue";
 import { FileEntry, getFiles, uploadChunk, viewFile, downloadFile, hideFile, unhideFile, deleteFile, createFolder } from '@/api/file';
 import ListView from './fileViews/ListView.vue';
+import IconView from './fileViews/IconView.vue';
 import type { UploadItem } from '@/types/uploadTypes';
 import { addFolderToPath, getParentId, setParentId, removeLastParentId, removeLastFolderFromPath } from '@/logic/fpath';
 
@@ -262,6 +263,18 @@ async function goBackFolder() {
             </div>
 
                 <ListView
+                    class="hidden lg:block"
+                    :files="files"
+                    @view="handleViewFile"
+                    @download="handleDownload"
+                    @hide="handleHideFile"
+                    @unhide="handleUnhideFile"
+                    @delete="handleDeleteFile"
+                    @goToFolder="goToFolder"
+                    @goBackFolder="goBackFolder" />
+
+                <IconView
+                    class="block lg:hidden"
                     :files="files"
                     @view="handleViewFile"
                     @download="handleDownload"
