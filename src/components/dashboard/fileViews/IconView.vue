@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CirclePlay, File, FileText, Folder, Image, ArrowUpLeft } from 'lucide-vue-next';
+import { CirclePlay, File, FileText, Folder, Image, ArrowUpLeft, Download, Eye, EyeOff, Trash2 } from 'lucide-vue-next';
 
 import { FileEntry } from '@/api/file';
 import { isRoot } from '@/logic/fpath';
@@ -9,6 +9,16 @@ const props = defineProps<{
         header: string[],
         data: FileEntry[]
     }
+}>();
+
+const emit = defineEmits<{
+    (e: 'view', fileId: string): void;
+    (e: 'download', fileId: string, fileName: string): void;
+    (e: 'hide', fileId: string): void;
+    (e: 'unhide', fileId: string): void;
+    (e: 'delete', fileId: string): void;
+    (e: 'goToFolder', fileId: string, fileName: string): void;
+    (e: 'goBackFolder'): void;
 }>();
 
 function getTypeIcon(type: string) {
@@ -62,12 +72,12 @@ function getTypeClasses(type: string) {
             <div
                 v-for="file in files.data"
                 :key="file.file_id || file.name"
-                class="group rounded-xl border border-slate-200 bg-white p-2 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                :class="[{ 'opacity-95': file.hidden }, 'group rounded-xl border border-slate-200 bg-white p-2 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md']"
             >
                 <div
                     class="flex cursor-pointer flex-col items-center justify-center text-center"
                     :title="file.name"
-                    @click="file.type === 'folder' ? $emit('goToFolder', file.file_id, file.name) : $emit('view', file.file_id)"
+                    @click="file.type === 'folder' ? emit('goToFolder', file.file_id, file.name) : emit('view', file.file_id)"
                 >
                     <div class="mb-2 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100">
                         <component
@@ -87,6 +97,46 @@ function getTypeClasses(type: string) {
 
                 <div v-if="file.hidden" class="mt-2 text-center text-[10px] font-semibold uppercase tracking-wide text-orange-600">
                     Hidden
+                </div>
+
+                <div v-if="file.type !== 'folder'" class="mt-3 flex flex-wrap items-center justify-center gap-1.5">
+                    <button
+                        type="button"
+                        class="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-1.5 py-1 text-[10px] font-medium text-slate-700 transition hover:bg-slate-100"
+                        @click.stop="emit('view', file.file_id)"
+                        title="View"
+                    >
+                        <Eye class="h-3 w-3" />
+                        <span>View</span>
+                    </button>
+                    <button
+                        type="button"
+                        class="inline-flex items-center gap-1 rounded-md border border-blue-200 bg-blue-50 px-1.5 py-1 text-[10px] font-medium text-blue-700 transition hover:bg-blue-100"
+                        @click.stop="emit('download', file.file_id, file.name)"
+                        title="Download"
+                    >
+                        <Download class="h-3 w-3" />
+                        <span>Download</span>
+                    </button>
+                    <button
+                        type="button"
+                        :class="file.hidden ? 'border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100' : 'border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100'"
+                        class="inline-flex items-center gap-1 rounded-md border px-1.5 py-1 text-[10px] font-medium transition"
+                        @click.stop="file.hidden ? emit('unhide', file.file_id) : emit('hide', file.file_id)"
+                        :title="file.hidden ? 'Unhide' : 'Hide'"
+                    >
+                        <component :is="file.hidden ? EyeOff : Eye" class="h-3 w-3" />
+                        <span>{{ file.hidden ? 'Unhide' : 'Hide' }}</span>
+                    </button>
+                    <button
+                        type="button"
+                        class="inline-flex items-center gap-1 rounded-md border border-red-200 bg-red-50 px-1.5 py-1 text-[10px] font-medium text-red-700 transition hover:bg-red-100"
+                        @click.stop="emit('delete', file.file_id)"
+                        title="Delete"
+                    >
+                        <Trash2 class="h-3 w-3" />
+                        <span>Delete</span>
+                    </button>
                 </div>
             </div>
         </div>
