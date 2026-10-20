@@ -90,8 +90,10 @@ function getTypeClasses(type: string) {
                     <div class="w-full truncate px-1 text-sm font-medium text-slate-800" :title="file.name">
                         {{ file.name }}
                     </div>
-                    <div class="mt-1 text-[10px] uppercase tracking-wide text-slate-500">
-                        {{ file.type }}
+                    <div class="mt-1 inline-flex items-center justify-center text-[10px] uppercase tracking-wide text-slate-500">
+                        <span>{{ file.type }}</span>
+                        <span v-if="file.type !== 'folder'" class="mx-1.5 text-base leading-none text-slate-400">•</span>
+                        <span v-if="file.type !== 'folder'">{{ file.size }}</span>
                     </div>
                 </div>
 
