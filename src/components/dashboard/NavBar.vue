@@ -21,13 +21,13 @@ const submitSearch = () => {
 </script>
 
 <template>
-    <div class="bg-gray-100 w-full flex h-fit gap-x-14">
-        <div class="pl-6 p-3 content-center">
+    <div class="bg-gray-100 w-full flex flex-wrap items-center h-fit gap-x-14 gap-y-3">
+        <div class="pl-6 p-3 content-center order-1">
             <h1 class="text-xl font-bold">
                 {{ userStore.currentUser?.locker_name }}
             </h1>
         </div>
-        <div class="p-3 w-1/3 content-center">
+        <div class="-mt-6 md:mt-0 order-3 w-full p-3 md:order-2 md:w-1/3 md:content-center">
             <Input
                 v-model:modelValue="searchQuery"
                 @keydown.enter="submitSearch"
@@ -41,7 +41,7 @@ const submitSearch = () => {
                 </Button>
             </Input>
         </div>
-        <div class="ml-auto mr-3 p-3">
+        <div class="order-2 ml-auto mr-3 p-3 md:order-3">
             <UserOptions @logout="$emit('logout')" />
         </div>
     </div>

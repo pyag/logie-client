@@ -13,12 +13,12 @@ const userOptionsStyle = "flex gap-x-1 py-2 px-4 rounded-full text-gray-800 bg-r
 <template>
     <div class="flex gap-x-4">
         <BaseButton :extra-classes="userOptionsStyle" @click="showSettingModal = true">
-            <Settings />
-            Settings
+            <Settings class="shrink-0" />
+            <span class="hidden sm:inline">Settings</span>
         </BaseButton>
         <BaseButton :extra-classes="userOptionsStyle" @click="$emit('logout')">
-            <LogOut />
-            Logout
+            <LogOut class="shrink-0" />
+            <span class="hidden sm:inline">Logout</span>
         </BaseButton>
     </div>
 
