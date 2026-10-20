@@ -44,20 +44,20 @@ function uploadAll() {
             modalTitle="Selected Files"
             @close="$emit('close')"
         >
-            <div class="flex flex-col h-125 w-130">
-                <div class="overflow-y-auto flex-1">
-                    <div class="space-y-2">
+            <div class="flex flex-col h-[min(32rem,75vh)] w-[calc(100vw-2rem)] max-w-130 min-w-0">
+                <div class="overflow-y-auto flex-1 min-w-0">
+                    <div class="space-y-2 w-full min-w-0">
                         <div v-if="uploadItems.length === 0" class="text-gray-500">
                             No files selected
                         </div>
-                        <ul v-else class="space-y-1">
+                        <ul v-else class="space-y-1 w-full min-w-0">
                             <li
                                 v-for="item in uploadItems"
                                 :key="item.id"
-                                class="text-sm text-gray-700 p-2 bg-gray-200 rounded-md"
+                                class="w-full max-w-full text-sm text-gray-700 p-2 bg-gray-200 rounded-md overflow-hidden"
                             >
-                                <div class="flex items-start justify-between gap-2">
-                                    <div class="flex-1 min-w-0">
+                                <div class="flex items-start justify-between gap-2 min-w-0">
+                                    <div class="flex-1 min-w-0 overflow-hidden">
                                         <div class="font-medium truncate">{{ item.file.name }}</div>
                                         <div class="text-xs text-gray-500">
                                             {{ formatFileSize(item.file.size) }}
