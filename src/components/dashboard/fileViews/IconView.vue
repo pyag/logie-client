@@ -41,7 +41,7 @@ function getTypeClasses(type: string) {
         case 'folder':
             return 'text-amber-500 fill-amber-200';
         case 'video':
-            return 'text-red-500 fill-red-100';
+            return 'text-[#EA4335] fill-[#EA4335]/15';
         case 'image':
             return 'text-indigo-500 fill-indigo-100';
         case 'pdf':
