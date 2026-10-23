@@ -7,6 +7,7 @@ import { Search } from 'lucide-vue-next';
 
 import SearchHeader from "@/components/search/SearchHeader.vue";
 import PublicFileList from "./PublicFileList.vue";
+import PublicIconViewList from "./PublicIconViewList.vue";
 import { FileEntry, getPublicLockerFiles, downloadFile, viewFile } from '@/api/file';
 
 const route = useRoute();
@@ -219,6 +220,16 @@ onMounted(async () => {
                 <!-- File list (only show if loaded and no error) -->
                 <div v-else-if="!errorMessage && pidStack.length > 0">
                     <PublicFileList
+                        class="hidden lg:block"
+                        :files="files"
+                        :canGoBack="canGoBack"
+                        @view="viewFileAction"
+                        @download="downloadFileAction"
+                        @goToFolder="navigateToFolder"
+                        @back="goBack" />
+
+                    <PublicIconViewList
+                        class="block lg:hidden"
                         :files="files"
                         :canGoBack="canGoBack"
                         @view="viewFileAction"
