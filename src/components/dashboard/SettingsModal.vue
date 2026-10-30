@@ -239,7 +239,8 @@ async function handleDeleteLocker() {
 
 <style scoped>
 .settings-stage {
-    min-height: 23.75rem;
+    height: min(23.75rem, calc(100dvh - 8rem));
+    min-height: 0;
 }
 
 .mobile-settings-menu,
@@ -265,6 +266,8 @@ async function handleDeleteLocker() {
     position: absolute;
     inset: 0;
     width: 100%;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
     opacity: 0;
     transform: translateX(100%);
     pointer-events: none;
@@ -278,12 +281,14 @@ async function handleDeleteLocker() {
 
 @media (min-width: 64rem) {
     .settings-stage {
+        height: auto;
         min-height: 23.75rem;
     }
 
     .mobile-settings-menu,
     .mobile-settings-form {
         position: static;
+        overflow: visible;
         opacity: 1;
         transform: none;
         pointer-events: auto;
