@@ -95,9 +95,8 @@ async function handleDeleteLocker() {
 <template>
     <Teleport to="body">
         <Modal modalTitle="Settings" @close="$emit('close')">
-            <div class="flex w-200 min-h-95 -mx-6 -my-4">
-                
-                <aside class="w-1/3 border-r border-gray-200 py-4 flex flex-col bg-gray-50/50">
+            <div class="flex w-[calc(100vw-6rem)] lg:w-200 min-h-95 lg:min-h-95 mx-0 lg:-mx-6 my-0 lg:-my-4">
+                <aside class="hidden lg:flex lg:w-1/3 border-r border-gray-200 py-4 flex-col bg-gray-50/50">
                     <button 
                         @click="currentTab = 'password'"
                         :class="[
@@ -123,10 +122,9 @@ async function handleDeleteLocker() {
                     </button>
                 </aside>
 
-                <main class="w-2/3 p-6 flex flex-col justify-between">
-                    
-                    <form v-if="currentTab === 'password'" @submit.prevent="handleChangePassword" class="flex flex-col gap-4 h-full justify-between">
-                        <div class="flex flex-col gap-4">
+                <main class="w-full p-4 lg:w-2/3 lg:p-6 flex flex-col justify-between">
+                    <form v-if="currentTab === 'password'" @submit.prevent="handleChangePassword" class="flex flex-col gap-5 h-full justify-between">
+                        <div class="flex flex-col gap-5">
                             <div class="flex flex-col gap-1.5">
                                 <Label for="old-password">Old Password</Label>
                                 <Password 
@@ -164,7 +162,7 @@ async function handleDeleteLocker() {
                         </Button>
                     </form>
 
-                    <form v-if="currentTab === 'delete'" @submit.prevent="handleDeleteLocker" class="flex flex-col gap-5 h-full justify-between">
+                    <form v-else @submit.prevent="handleDeleteLocker" class="flex flex-col gap-5 h-full justify-between">
                         <div class="flex flex-col gap-5">
                             <div class="bg-red-50 border border-red-200 p-4 rounded-md">
                                 <div class="flex flex-col gap-1">
@@ -188,7 +186,7 @@ async function handleDeleteLocker() {
                             <p v-if="deleteErrorMessage" class="text-red-700 text-base/5">{{ deleteErrorMessage }}</p>
                         </div>
 
-                        <Button class="self-end bg-red-600! hover:bg-red-700! text-white">
+                        <Button type="submit" class="self-end bg-red-600! hover:bg-red-700! text-white">
                             Permanently Delete Locker
                         </Button>
                     </form>
